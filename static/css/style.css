@@ -8,12 +8,13 @@
   text-align: center;
 }
 
+
+
 header {
 
   padding: 0px;
 
 }
-
 
 
 #main-content {
@@ -32,5 +33,48 @@ header {
   justify-content: center;
   font-size: 2em;
   background-color: white; 
+}
+
+
+@keyframes scrollReveal {
+  from {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}
+
+
+.img-animate {
+  transform: scaleY(0);
+  transition: transform 0.5s ease-in-out;
+}
+
+.img-animate.visible {
+  animation: scrollReveal 1s forwards;
+}
+
+@keyframes formReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-animate {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.form-animate.visible {
+  animation: formReveal 0.5s forwards;
 }
 

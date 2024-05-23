@@ -3,8 +3,8 @@
 {% block title %}Menu{% endblock %}
 {% block content %}
 
-<div class="container" id="menu">
-  <h2>Our Menu</h2>
+<div class="container my-5 d-flex justify-content-center align-items-center" id="menu" style="overflow-y: auto; max-height: 80vh;">
+  <img src="{{ url_for('static', filename='sources/menu.png') }}" alt="Menu Image" class="img-fluid img-animate" style="max-width: 40%; height: auto;">
 </div>
 
 

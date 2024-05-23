@@ -3,9 +3,41 @@
 {% block title %}Reservation{% endblock %}
 {% block content %}
 
-<div class="container" id="reservation">
-  <h2>Reservation</h2>
+<div class="container my-5 d-flex justify-content-center align-items-center" id="reservation" style="overflow-y: auto; max-height: 80vh;">
+  <div class="card w-100 form-animate" style="max-width: 600px;">
+    <div class="card-body">
+      <h5 class="card-title text-center">Reservation</h5>
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputName">Name</label>
+            <input type="text" class="form-control" id="inputName" placeholder="Name">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputPeople">Number of People</label>
+            <select class="form-control" id="inputPeople">
+              {% for i in range(1, 11) %}
+                <option>{{ i }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputDate">Date</label>
+            <input type="date" class="form-control" id="inputDate">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputTime">Time</label>
+          <input type="time" class="form-control" id="inputTime">
+        </div>
+        <button type="submit" class="btn btn-primary">Validation</button>
+      </form>
+    </div>
+  </div>
 </div>
+
 
 
 <script>
