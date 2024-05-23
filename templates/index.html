@@ -2,24 +2,53 @@
 
 {% block title %}Ristorante "Il Capo"{% endblock %}
 {% block content %}
-
-<div class="bg">
-  <div class="menu-area menu-1">
-      <div class="card card-hover">
-          <img src="static/sources/menu.png" class="card-img-top" alt="menu">
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Ristorante "IL Capo"</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#menu-section">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#reservation-section">Reservation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about_us-section">About Us</a>
+            </li>
+          </ul>
+        </div>
       </div>
+    </nav>
+
+
+  </header>
+
+  <main>
+    <div class="container my-2 py3"></div>
+  </main>
+
+  <div class="hero-section" id="index">
   </div>
 
-  <div class="menu-area hour-1">
-    <div class="card card-hover small-card-hover">
-        <img src="static/sources/menu.png" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Menu 2</h5>
-            <p class="card-text">This is menu 2 description.</p>
-        </div>
-    </div>
-</div>
-</div>
+  <div id="menu-section" class="scroll-section">
+    <h2>Menu</h2>
+    {% include 'menu.html' %}
+  </div>
+
+  <div id="reservation-section" class="scroll-section">
+    <h2>Reservation</h2>
+    {% include 'reservation.html' %}
+  </div>
+
+  <div id="about_us-section" class="scroll-section">
+    <h2>About Us</h2>
+    {% include 'about_us.html' %}
+  </div>
 
 
 <script>

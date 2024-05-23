@@ -1,40 +1,36 @@
-body {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-image: url('/static/sources/background.webp');
-  background-position: center;
+.hero-section {
   height: 100vh;
+  background: url('/static/sources/background.webp') no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  text-align: center;
 }
 
-.menu-area {
-  position: absolute;
-  cursor: pointer;
-}
-.menu-1 {
-  top: 25%;
-  left: 30%;
-  width: 10%;
-  height: 20%;
+header {
+
+  padding: 0px;
+
 }
 
-.hour-1 {
-  top: 40%;
-  left: 45%;
-  width: 5%;
-  height: 10%;
-}
-.card-hover {
-  display: none;
-  position: absolute;
-  width: 30rem;
-  transition: opacity 0.3s ease;
+
+
+#main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300vh; 
 }
 
-.small-card-hover {
-  width: 8rem;
- 
+.scroll-section {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  background-color: white; 
 }
 
-.menu-area:hover .card-hover {
-  display: block;
-}

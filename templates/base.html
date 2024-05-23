@@ -20,13 +20,7 @@
   {% endblock %}
 </head>
 <body>
-  <header>
-    
-  </header>
-  
-   <main>
 
-  </main>
     
   {% block content %}
     
@@ -34,7 +28,7 @@
 
   {% block scripts %}
       
-
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   
   {% endblock %}
   
