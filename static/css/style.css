@@ -1,0 +1,40 @@
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('/static/sources/background.webp');
+  background-position: center;
+  height: 100vh;
+}
+
+.menu-area {
+  position: absolute;
+  cursor: pointer;
+}
+.menu-1 {
+  top: 25%;
+  left: 30%;
+  width: 10%;
+  height: 20%;
+}
+
+.hour-1 {
+  top: 40%;
+  left: 45%;
+  width: 5%;
+  height: 10%;
+}
+.card-hover {
+  display: none;
+  position: absolute;
+  width: 30rem;
+  transition: opacity 0.3s ease;
+}
+
+.small-card-hover {
+  width: 8rem;
+ 
+}
+
+.menu-area:hover .card-hover {
+  display: block;
+}
