@@ -1,3 +1,9 @@
+html, body {
+  
+  font-family: 'Playfair Display', serif;
+ 
+}
+
 .hero-section {
   height: 100vh;
   background: url('/static/sources/background.webp') no-repeat center center/cover;
@@ -90,7 +96,7 @@ header {
 
 
 .about-us-section {
-  background-color: #f4f1e4; /* Cambia esto al color que desees */
+  background-color: #f4f1e4; 
   flex: 1;
   padding: 20px; 
   box-sizing: border-box; 
@@ -98,10 +104,10 @@ header {
 }
 
 .footer {
-  background-color: #333; /* Color de fondo del footer */
-  color: #fff; /* Color del texto del footer */
+  background-color: #333; 
+  color: #fff; 
   padding: 10px 0;
   text-align: center;
   width: 100%;
-  flex-shrink: 0; /* Asegura que el footer no se reduzca */
+  flex-shrink: 0; 
 }
