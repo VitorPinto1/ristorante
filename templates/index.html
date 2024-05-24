@@ -3,9 +3,11 @@
 {% block title %}Ristorante "Il Capo"{% endblock %}
 {% block content %}
   <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top ">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Ristorante "Il Capo"</a>
+        <a class="navbar-brand" href="#">
+          <img src="static/sources/ristoranteLogoNav.svg" alt="Ristorante Il Capo" style="height: 40px;">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -33,6 +35,9 @@
   </main>
 
   <div class="hero-section" id="index">
+    <div id="logo-animation" class="logo-animation">
+      <img src="static/sources/RistoranteIndex-svg.svg" alt="Ristorante Il Capo open" class="logo-image">
+    </div>
   </div>
 
   <div id="menu-section" class="scroll-section">
@@ -46,6 +51,8 @@
   <div id="about_us-section" class="scroll-section">
     {% include 'about_us.html' %}
   </div>
+
+
 
 
 <script>

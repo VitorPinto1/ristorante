@@ -7,7 +7,15 @@ html, body {
 #buttonReservation {
   background-color: #dfc99c;
   color: black;
+  margin-top: 30px;
 }
+
+#reservation .card {
+  border-radius: 10px; /* Cambiar el radio de borde */
+  box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.1); /* Añadir sombra */
+  margin: 20px 0;
+}
+
 
 .custom-label {
   font-size: 16px;
@@ -15,14 +23,25 @@ html, body {
 
 .hero-section {
   height: 100vh;
-  background: url('/static/sources/background.webp') no-repeat center center/cover;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  
   text-align: center;
+  overflow: hidden; 
 }
 
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/static/sources/background.webp') no-repeat center center/cover;
+  filter: blur(3px);
+  z-index: -1;
+}
 
 
 header {
@@ -110,6 +129,8 @@ header {
   padding: 20px; 
   box-sizing: border-box; 
   min-height: calc(100vh - 60px);
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .footer {
@@ -119,4 +140,66 @@ header {
   text-align: center;
   width: 100%;
   flex-shrink: 0; 
+}
+
+.map-container {
+  margin-left: 60px;
+  margin-top: 90px;
+  text-align: left;
+  flex: 1;
+  min-width: 40%; 
+}
+
+
+
+#textAboutUs {
+  flex: 1;
+  min-width: 20%; 
+  margin-left: 16%;
+  font-size: 20px;
+  margin-top: -2%;
+}
+
+
+
+.contact-info {
+  display: flex;
+  align-items: center;
+}
+
+.contact-info .logo {
+  width: 3%;
+  height: 1%;
+  margin-right: 3%
+}
+
+
+
+
+
+
+.logo-animation {
+  animation: fadeIn 2s forwards;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.logo-image {
+  width: 800px;
+  height: auto;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.logo-animation.stay {
+  position: fixed;
 }

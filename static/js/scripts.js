@@ -61,3 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('scroll', onScroll);
   onScroll(); 
 });
+
+
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  const logo = document.getElementById('logo-image');
+  logo.classList.add('stay'); 
+});
