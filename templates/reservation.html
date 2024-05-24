@@ -6,17 +6,17 @@
 <div class="container my-5 d-flex justify-content-center align-items-center" id="reservation" style="overflow-y: auto; max-height: 80vh;">
   <div class="card w-100 form-animate custom-card-color" style="max-width: 600px;">
     <div class="card-body">
-      <h5 class="card-title text-center">Reservation</h5>
+      <h5 class="card-title text-center" style="font-weight: bold; font-size: 24px;">Reservation</h5>
       <form>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="inputName">Name</label>
+            <label for="inputName" class="custom-label">Name</label>
             <input type="text" class="form-control" id="inputName" placeholder="Name">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="inputPeople">Number of People</label>
+            <label for="inputPeople" class="custom-label">Number of People</label>
             <select class="form-control" id="inputPeople">
               {% for i in range(1, 11) %}
                 <option>{{ i }}</option>
@@ -24,15 +24,15 @@
             </select>
           </div>
           <div class="form-group col-md-6">
-            <label for="inputDate">Date</label>
+            <label for="inputDate" class="custom-label">Date</label>
             <input type="date" class="form-control" id="inputDate">
           </div>
         </div>
-        <div class="form-group">
-          <label for="inputTime">Time</label>
+        <div class="form-group col-md-6">
+          <label for="inputTime" class="custom-label">Time</label>
           <input type="time" class="form-control" id="inputTime">
         </div>
-        <button type="submit" class="btn btn-primary">Validation</button>
+        <button type="submit" id="buttonReservation" class="btn">Validation</button>
       </form>
     </div>
   </div>

@@ -4,6 +4,15 @@ html, body {
  
 }
 
+#buttonReservation {
+  background-color: #dfc99c;
+  color: black;
+}
+
+.custom-label {
+  font-size: 16px;
+}
+
 .hero-section {
   height: 100vh;
   background: url('/static/sources/background.webp') no-repeat center center/cover;
