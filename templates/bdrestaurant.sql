@@ -6,8 +6,9 @@ USE dbrestaurant_silkspeech;
 
 CREATE TABLE IF NOT EXISTS reservation (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    person VARCHAR(50),
-    totalPerson VARCHAR(50),
+    name VARCHAR(50),
+    totalPerson INT,
     day DATE,
-    time TIME
+    time TIME,
+    email VARCHAR(100)
 );

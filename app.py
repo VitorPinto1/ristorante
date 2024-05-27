@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
+from flask_bootstrap import Bootstrap
 from datetime import datetime
 from dotenv import load_dotenv
+from flask_mail import Mail, Message
 import os
+import logging
 
-
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRETKEY')
@@ -18,7 +21,16 @@ app.config['MYSQL_DB'] = 'dbrestaurant_silkspeech'
 
 mysql = MySQL(app)
 
+app.config['MAIL_DEFAULT_SENDER'] = 'staniaprojets@gmail.com'
+app.config['MAIL_SERVER']='localhost'
+app.config['MAIL_PORT'] = 1025
+app.config['MAIL_USERNAME'] = ''
+app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = False
+mail = Mail(app)
 
+bootstrap = Bootstrap(app)
 
 @app.route('/')
 def index():
@@ -32,10 +44,11 @@ def menu():
 def reservation():
     if request.method == 'POST':
         try:
-            person = request.form['name']
+            name = request.form['name']
             total_person = int(request.form['totalPerson'])
             day = request.form['date']
             time = request.form['time']
+            email = request.form['email']
 
             cursor = mysql.connection.cursor()
             cursor.execute('''
@@ -48,16 +61,29 @@ def reservation():
                 return redirect(url_for('reservation'))
 
             query = '''
-                INSERT INTO reservation (person, totalPerson, day, time)
-                VALUES (%s, %s, %s, %s)
+                INSERT INTO reservation (name, totalPerson, day, time, email)
+                VALUES (%s, %s, %s, %s, %s)
             '''
-            data = (person, total_person, day, time)
+            data = (name, total_person, day, time, email)
             cursor.execute(query, data)
+            reservation_id = cursor.lastrowid
             mysql.connection.commit()
             cursor.close()
 
-           
-            
+
+            # confirmation email
+            msg = Message('Reservation Confirmation',
+                          recipients=[email])
+            msg.body = f'Hello {name},\n\nYour reservation (ID: {reservation_id}) for {day} at {time} is confirmed. We look forward to serving you.\n\nBest regards,\nRistorante "Il Capo" Team'
+            try:
+                mail.send(msg)
+                logging.info('Confirmation email sent successfully.')
+                flash('Reservation confirmed! A confirmation email has been sent.', 'success')
+            except Exception as e:
+                logging.error(f'Failed to send confirmation email: {e}')
+
+                flash(f'Failed to send confirmation email: {e}', 'danger')
+
 
             return redirect(url_for('index'))
         except Exception as e:
@@ -75,3 +101,10 @@ def about_us():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+"""
+msg = Message('Confirmez votre compte', sender='mailtrap@demomailtrap.com', recipients=[email])
+msg.body = f'Hello {name}, Your reservation {id} for {date} - {time} is confirmed.  We look forward to serving you at Ristorante "Il Capo". Best regards '
+mail.send(msg) """

@@ -7,11 +7,13 @@
   <div class="card w-100 form-animate custom-card-color" style="max-width: 600px;">
     <div class="card-body">
       <h5 class="card-title text-center" style="font-weight: bold; font-size: 24px;">Reservation</h5>
+     
+
       <form method="POST" action="{{ url_for('reservation') }}">
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputName" class="custom-label">Name</label>
-            <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" required>
+            <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" maxlength="50" pattern="^[A-Za-z]+( [A-Za-z]+)?$" required>
           </div>
         </div>
         <div class="form-row">
@@ -27,10 +29,19 @@
             <label for="inputDate" class="custom-label">Date</label>
             <input type="date" class="form-control" id="inputDate" name="date" required>
           </div>
+          <div class="form-group col-md-12 mt-2">
+            <div id="mondayWarning" class="alert alert-danger text-center" style="display: none;">
+              Ristorante "Il Capo" is closed on Mondays. Please choose a date between Tuesday and Sunday.
+            </div>
+          </div>
         </div>
         <div class="form-group col-md-6">
           <label for="inputTime" class="custom-label">Time</label>
           <input type="text" class="form-control" id="inputTime" name="time" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputEmail" class="custom-label">E-mail</label>
+          <input type="email" class="form-control" id="inputEmail" name="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
         </div>
         <div class="form-group d-flex justify-content-center">
           <button type="submit" id="buttonReservation" class="btn">Validation</button>
@@ -39,6 +50,7 @@
     </div>
   </div>
 </div>
+
 
 
 
@@ -68,15 +80,19 @@
     
   });
 
-
   document.getElementById('inputDate').addEventListener('input', function(e) {
     const inputDate = new Date(e.target.value);
     const dayOfWeek = inputDate.getUTCDay();
+    const warning = document.getElementById('mondayWarning');
     if (dayOfWeek === 1) {
-        e.target.value = ''; 
-        $('#mondayModal').modal('show'); 
+      e.target.value = ''; 
+      warning.style.display = 'block';
+    } else {
+      warning.style.display = 'none';
     }
   });
+
+  
 
 
 

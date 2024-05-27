@@ -204,3 +204,7 @@ header {
   position: fixed;
 }
 
+
+#mondayWarning {
+  font-size: 12px;
+}
