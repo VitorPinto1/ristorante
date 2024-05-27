@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Reservation Confirmation{% endblock %}
+{% block content %}
+
+<div class="container my-5 d-flex justify-content-center align-items-center" id="reservation" style="overflow-y: auto; max-height: 80vh;">
+  <div class="card w-100 form-animate custom-card-color" style="max-width: 600px;">
+    <div class="card-body">
+      <h5 class="card-title text-center" style="font-weight: bold; font-size: 24px;">Reservation</h5>
+     
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div id="flash-messages">
+                    {% set shown_messages = {} %}
+                    {% for category, message in messages %}
+                        {% if category not in shown_messages %}
+                          <p class="flash-message">{{ message }}</p>  
+                          {% set shown_messages = shown_messages.update({category: message}) %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+       
+        <div class="form-group d-flex justify-content-center">
+          <a href="{{ url_for('index') }}" class="btn" id="buttonConfirmation">Return to Home</a>
+        </div>
+    </div> 
+  </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($("#flash-messages .alert").length > 0) {
+            $("#flash-messages .alert").each(function() {
+                $(this).alert();
+            });
+        }
+    });
+</script>
+{% endblock %}

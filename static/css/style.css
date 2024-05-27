@@ -10,6 +10,12 @@ html, body {
   margin-top: 30px;
 }
 
+#buttonConfirmation {
+  background-color: #dfc99c;
+  color: black;
+  margin-top: 30px;
+}
+
 #reservation .card {
   border-radius: 10px; /* Cambiar el radio de borde */
   box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.1); /* Añadir sombra */

@@ -74,21 +74,20 @@ def reservation():
             # confirmation email
             msg = Message('Reservation Confirmation',
                           recipients=[email])
-            msg.body = f'Hello {name},\n\nYour reservation (ID: {reservation_id}) for {day} at {time} is confirmed. We look forward to serving you.\n\nBest regards,\nRistorante "Il Capo" Team'
+            msg.body = f'Hello {name},\n\nYour reservation number {reservation_id}) for {day} at {time} is confirmed. We look forward to serving you.\n\nBest regards,\nRistorante "Il Capo" Team'
             try:
                 mail.send(msg)
                 logging.info('Confirmation email sent successfully.')
-                flash('Reservation confirmed! A confirmation email has been sent.', 'success')
+                flash(f'Hello {name}, Your reservation number {reservation_id} for {day} at {time} is confirmed. We look forward to serving you. Best regards, Ristorante "Il Capo" Team', 'success')
             except Exception as e:
                 logging.error(f'Failed to send confirmation email: {e}')
-
                 flash(f'Failed to send confirmation email: {e}', 'danger')
 
 
-            return redirect(url_for('index'))
+            return redirect(url_for('confirmation'))
         except Exception as e:
             flash(f'Error: {e}', 'danger')
-            return redirect(url_for('index'))
+            return redirect(url_for('reservation'))
     
     return render_template('reservation.html')
 
@@ -96,15 +95,12 @@ def reservation():
 def about_us():
     return render_template('about_us.html')
 
-
+@app.route('/confirmation')
+def confirmation():
+    return render_template('confirmation.html')
 
 
 if __name__ == "__main__":
     app.run(debug=True)
 
 
-
-"""
-msg = Message('Confirmez votre compte', sender='mailtrap@demomailtrap.com', recipients=[email])
-msg.body = f'Hello {name}, Your reservation {id} for {date} - {time} is confirmed.  We look forward to serving you at Ristorante "Il Capo". Best regards '
-mail.send(msg) """
