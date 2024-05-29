@@ -1,8 +1,21 @@
 html, body {
   
   font-family: 'Playfair Display', serif;
+  overflow-x: hidden;
  
 }
+
+.navbar-toggler-icon-close {
+  display: none;
+}
+
+
+.img-animate {
+  max-width: 40%;
+  height: auto;
+}
+
+
 
 #buttonReservation {
   background-color: #dfc99c;
@@ -108,15 +121,17 @@ header {
   }
 }
 
+
+
 .form-animate {
   opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+.form-animate.visible {
+  opacity: 1;
 }
 
-.form-animate.visible {
-  animation: formReveal 0.5s forwards;
-}
+
 
 .custom-card-color  {
   background-color: #f4f1e4;
@@ -146,6 +161,15 @@ header {
   text-align: center;
   width: 100%;
   flex-shrink: 0; 
+  display: none; 
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+
+}
+.footer.visible {
+  display: block; 
 }
 
 .map-container {
@@ -212,5 +236,36 @@ header {
 
 
 #mondayWarning {
-  font-size: 12px;
+  font-size: 10px;
+}
+
+#timeWarning {
+  font-size: 10px;
+}
+
+
+
+@media (max-width: 767px) {
+  .map-container {
+    margin-top: 20px; 
+    min-width: 100%; 
+    display: flex;
+
+  }
+  
+  #textAboutUs {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: -40%;
+    font-size: 13px;
+  }
+
+  .img-animate {
+    max-width: 100%;
+  }
+
+  .logo-image {
+    width: 400px;
+    height: auto;
+  }
 }

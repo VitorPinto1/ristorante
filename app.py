@@ -74,11 +74,11 @@ def reservation():
             # confirmation email
             msg = Message('Reservation Confirmation',
                           recipients=[email])
-            msg.body = f'Hello {name},\n\nYour reservation number {reservation_id}) for {day} at {time} is confirmed. We look forward to serving you.\n\nBest regards,\nRistorante "Il Capo" Team'
+            msg.body = f'Hello {name},\n\nYour reservation number {reservation_id} for {day} at {time} is confirmed. We look forward to serving you.\n\nBest regards,\nRistorante "Il Capo" Team'
             try:
                 mail.send(msg)
                 logging.info('Confirmation email sent successfully.')
-                flash(f'Hello {name}, Your reservation number {reservation_id} for {day} at {time} is confirmed. We look forward to serving you. Best regards, Ristorante "Il Capo" Team', 'success')
+                flash(f'Hello {name}, your reservation number {reservation_id} for {day} at {time} is confirmed. We have sent you an email as well. We look forward to serving you. Best regards, Ristorante "Il Capo" Team', 'success')
             except Exception as e:
                 logging.error(f'Failed to send confirmation email: {e}')
                 flash(f'Failed to send confirmation email: {e}', 'danger')

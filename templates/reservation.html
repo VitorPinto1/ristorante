@@ -39,6 +39,11 @@
           <label for="inputTime" class="custom-label">Time</label>
           <input type="text" class="form-control" id="inputTime" name="time" required>
         </div>
+        <div class="form-group col-md-12 mt-2">
+          <div id="timeWarning" class="alert alert-danger text-center" style="display: none;">
+            Ristorante 'Il Capo' is open from 12:00 to 23:00. Please choose a time between 12:00 and 23:00.
+          </div>
+        </div>
         <div class="form-group col-md-6">
           <label for="inputEmail" class="custom-label">E-mail</label>
           <input type="email" class="form-control" id="inputEmail" name="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
@@ -57,16 +62,16 @@
 
 <script>
 
-  flatpickr("#inputTime", {
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "H:i",
-    time_24hr: true,
-    minTime: "12:00",
-    maxTime: "23:00"
-  });
+  document.addEventListener('DOMContentLoaded', function() {
+    flatpickr("#inputTime", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      time_24hr: true,
+      minTime: "12:00",
+      maxTime: "23:00"
+    });
 
-  $(document).ready(function() {
     var today = new Date();
     var tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
@@ -76,25 +81,30 @@
     var minDate = yyyy + '-' + mm + '-' + dd;
     document.getElementById('inputDate').setAttribute('min', minDate);
     
-   
-    
+    document.getElementById('inputDate').addEventListener('input', function(e) {
+      const inputDate = new Date(e.target.value);
+      const dayOfWeek = inputDate.getUTCDay();
+      const warning = document.getElementById('mondayWarning');
+      if (dayOfWeek === 1) {
+        e.target.value = ''; 
+        warning.style.display = 'block';
+      } else {
+        warning.style.display = 'none';
+      }
+    });
+
+    document.getElementById('inputTime').addEventListener('input', function(e) {
+      const time = e.target.value;
+      const [hours, minutes] = time.split(':').map(Number);
+      const warning = document.getElementById('timeWarning');
+      if (hours < 12 || hours >= 23) {
+        e.target.value = '';
+        warning.style.display = 'block';
+      } else {
+        warning.style.display = 'none';
+      }
+    });
   });
-
-  document.getElementById('inputDate').addEventListener('input', function(e) {
-    const inputDate = new Date(e.target.value);
-    const dayOfWeek = inputDate.getUTCDay();
-    const warning = document.getElementById('mondayWarning');
-    if (dayOfWeek === 1) {
-      e.target.value = ''; 
-      warning.style.display = 'block';
-    } else {
-      warning.style.display = 'none';
-    }
-  });
-
-  
-
-
 
 </script>
 
