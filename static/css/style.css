@@ -269,3 +269,24 @@ header {
     height: auto;
   }
 }
+
+
+
+
+
+
+.user_space-background {
+  background-color: #f4f1e4; 
+  min-height: 100vh; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+
+#buttonSign_up {
+  background-color: #dfc99c;
+  color: black;
+  margin-top: 30px;
+}
