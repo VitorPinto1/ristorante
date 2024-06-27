@@ -40,7 +40,10 @@ ts = URLSafeTimedSerializer(app.secret_key)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    user_name = session.get('user_name', '')
+    user_email = session.get('user_email', '')
+
+    return render_template('index.html', user_name=user_name, user_email=user_email)
 
 @app.route('/menu')
 def menu():
@@ -55,6 +58,7 @@ def reservation():
             day = request.form['date']
             time = request.form['time']
             email = request.form['email']
+            user_id = session.get('user_id')
 
             cursor = mysql.connection.cursor()
             cursor.execute('''
@@ -67,10 +71,10 @@ def reservation():
                 return redirect(url_for('reservation'))
 
             query = '''
-                INSERT INTO reservation (name, totalPerson, day, time, email)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO reservation (name, totalPerson, day, time, email, user_id)
+                VALUES (%s, %s, %s, %s, %s, %s)
             '''
-            data = (name, total_person, day, time, email)
+            data = (name, total_person, day, time, email, user_id)
             cursor.execute(query, data)
             reservation_id = cursor.lastrowid
             mysql.connection.commit()
@@ -95,7 +99,37 @@ def reservation():
             flash(f'Error: {e}', 'danger')
             return redirect(url_for('reservation'))
     
-    return render_template('reservation.html')
+    user_name = session.get('user_name', '')
+    user_email = session.get('user_email', '')
+    
+    return render_template('reservation.html' , user_name=user_name, user_email=user_email)
+
+@app.route('/reservation/<int:reservation_id>/delete', methods=['GET', 'POST'])
+def delete_reservation(reservation_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM reservation WHERE id = %s', (reservation_id,))
+    mysql.connection.commit()
+    cursor.close()
+    flash('Reservation deleted successfully.', 'success')
+    return redirect(url_for('user_space'))
+
+@app.route('/reservation/<int:reservation_id>/modify', methods=['GET', 'POST'])
+def modify_reservation(reservation_id):
+    new_date = request.form['date']
+    new_time = request.form['time']
+    new_total_person = request.form['totalPerson']
+    
+    cursor = mysql.connection.cursor()
+    cursor.execute('''
+        UPDATE reservation
+        SET day = %s, time = %s, totalPerson = %s
+        WHERE id = %s
+    ''', (new_date, new_time, new_total_person, reservation_id))
+    mysql.connection.commit()
+    cursor.close()
+    flash('Reservation modified successfully.', 'success')
+    return redirect(url_for('user_space'))
+
 
 @app.route('/about_us')
 def about_us():
@@ -188,7 +222,7 @@ def login():
                 if bcrypt.check_password_hash(user[2], password):
                     session['user_id'] = user[0]
                     session['user_name'] = user[1]
-                    flash('Login successful!', 'success')
+                    session['user_email'] = user[3]  
                     return redirect(url_for('user_space'))
                 else:
                     flash('Invalid email or password', 'danger')
@@ -208,7 +242,20 @@ def user_space():
     if 'user_id' not in session:
         flash('You need to login first', 'danger')
         return redirect(url_for('login'))
-    return render_template('user_space.html', name=session.get('user_name'))
+    
+    user_id = session['user_id']
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM reservation WHERE user_id = %s', (user_id,))
+    reservations = cursor.fetchall()
+    cursor.close()
+    return render_template('user_space.html', name=session.get('user_name'), reservations=reservations)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('user_name', None)
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":

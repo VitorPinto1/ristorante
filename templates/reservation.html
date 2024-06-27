@@ -13,7 +13,11 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputName" class="custom-label">Name</label>
-            <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" maxlength="50" pattern="^[A-Za-z]+( [A-Za-z]+)?$" required>
+            {% if user_name %}
+              <input type="text" class="form-control" id="inputNameUser" name="name" placeholder="Name" maxlength="50" value="{{ user_name }}" pattern="^[A-Za-z]+( [A-Za-z]+)?$" readonly>
+            {% else %}
+              <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" maxlength="50" pattern="^[A-Za-z]+( [A-Za-z]+)?$" required>
+            {% endif %}
           </div>
         </div>
         <div class="form-row">
@@ -46,7 +50,11 @@
         </div>
         <div class="form-group col-md-6">
           <label for="inputEmail" class="custom-label">E-mail</label>
-          <input type="email" class="form-control" id="inputEmail" name="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+          {% if user_email %}
+            <input type="email" class="form-control" id="inputEmailUser" name="email"  value="{{ user_email }}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" readonly>
+          {% else %}
+            <input type="email" class="form-control" id="inputEmail" name="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+          {% endif %}
         </div>
         <div class="form-group d-flex justify-content-center">
           <button type="submit" id="buttonReservation" class="btn">Validation</button>

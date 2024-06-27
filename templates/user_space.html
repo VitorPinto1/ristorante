@@ -3,18 +3,159 @@
 {% block title %}User space{% endblock %}
 {% block content %}
 
-<div class="user-background">
+<div class="user-background"></div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card custom-card-color">
+        <div class="card-body">
+          <h5 class="card-title text-center">Reservation</h5>
+          <ul>
+            {% for reservation in reservations %}
+              <li>Reservation ID: {{ reservation[0] }}, Date: {{ reservation[3] }}, Time: {{ reservation[4] }}, Total People: {{ reservation[2] }}</li>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Modifier" style="margin-bottom: 10px; width: 115px">Modifier</button>
+              <br>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Supprimer">Supprimer</button>
+
+              <!-- Modal de confirmation de suppression -->
+              <div class="modal fade" id="modal{{ reservation[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}SupprimerLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modal{{ reservation[0] }}SupprimerLabel">Supprimer la reservation</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Êtes-vous sûr de vouloir supprimer cette reservation ?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                      <a href="{{ url_for('delete_reservation', reservation_id=reservation[0]) }}" class="btn btn-danger">Oui</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+              <!-- Modal de modification -->
+              <div class="modal fade" id="modal{{ reservation[0] }}Modifier" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}ModifierLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modal{{ reservation[0] }}ModifierLabel">Modifier la reservation</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" action="{{ url_for('modify_reservation', reservation_id=reservation[0]) }}">
+                      <div class="modal-body">
+                        <div class="form-group">
+                          <label for="date{{ reservation[0] }}" >Date</label>
+                          <input type="date" class="form-control" id="inputDate{{ reservation[0] }}" name="date" value="{{ reservation[3] }}" required>
+                          <div id="mondayWarning" style="display: none; color: red;">Reservations are not allowed on Mondays.</div>
+                        </div>
+                        <div class="form-group">
+                          <label for="time{{ reservation[0] }}" >Time</label>
+                          <input type="time" class="form-control" id="inputTime{{ reservation[0] }}" name="time" value="{{ reservation[4] }}" required>
+                          <div id="timeWarning" style="display: none; color: red;">Reservations are allowed only between 12:00 and 23:00.</div>
+                        </div>
+                       
+                        <div class="form-group col-md-6">
+                          <label for="inputPeople{{ reservation[0] }}" class="custom-label">Number of People</label>
+                          <select class="form-control" id="inputPeople{{ reservation[0] }}" name="totalPerson" value="{{ reservation[2] }}" required>
+                            {% for i in range(1, 11) %}
+                              <option>{{ i }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                        <button type="submit" class="btn btn-primary">Oui</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 offset-md-4 mb-4">
+      <div class="card custom-card-color">
+        <div class="card-body">
+          <h5 class="card-title text-center">Card 2</h5>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+      <div class="card custom-card-color">
+        <div class="card-body">
+          <h5 class="card-title text-center">Card 3</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container my-3 d-flex justify-content-center">
+  <a href="{{ url_for('index') }}" class="btn">
+    <img src="{{ url_for('static', filename='sources/ristoranteilcapo.png') }}" alt="Home" style="width: 100px; height: 80px; margin-right: 8px;">
+  </a>
 </div>
 
 
-
-
-
-
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[id^="inputTime"]').forEach(function(timeInput) {
+      flatpickr(timeInput, {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+        minTime: "12:00",
+        maxTime: "23:00"
+      });
 
+      timeInput.addEventListener('input', function(e) {
+        const time = e.target.value;
+        const [hours, minutes] = time.split(':').map(Number);
+        const warning = e.target.nextElementSibling; 
+        if (hours < 12 || hours >= 23) {
+          e.target.value = '';
+          warning.style.display = 'block';
+        } else {
+          warning.style.display = 'none';
+        }
+      });
+    });
 
+    document.querySelectorAll('[id^="inputDate"]').forEach(function(dateInput) {
+      var today = new Date();
+      var tomorrow = new Date();
+      tomorrow.setDate(today.getDate() + 1);
+      var dd = String(tomorrow.getDate()).padStart(2, '0');
+      var mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); 
+      var yyyy = tomorrow.getFullYear();
+      var minDate = yyyy + '-' + mm + '-' + dd;
+      dateInput.setAttribute('min', minDate);
+
+      dateInput.addEventListener('input', function(e) {
+        const inputDate = new Date(e.target.value);
+        const dayOfWeek = inputDate.getUTCDay();
+        const warning = e.target.nextElementSibling; 
+        if (dayOfWeek === 1) {
+          e.target.value = '';
+          warning.style.display = 'block';
+        } else {
+          warning.style.display = 'none';
+        }
+      });
+    });
+  });
 </script>
+
 
 
 {% endblock %}
