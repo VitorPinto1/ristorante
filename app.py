@@ -244,11 +244,31 @@ def user_space():
         return redirect(url_for('login'))
     
     user_id = session['user_id']
+    
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT * FROM reservation WHERE user_id = %s', (user_id,))
     reservations = cursor.fetchall()
     cursor.close()
     return render_template('user_space.html', name=session.get('user_name'), reservations=reservations)
+
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    if 'user_id' not in session:
+        flash('You need to login first', 'danger')
+        return redirect(url_for('login'))
+    
+    user_id = session['user_id']
+    new_password = request.form['newPassword']
+    
+    hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+    
+    cursor = mysql.connection.cursor()
+    cursor.execute('UPDATE users SET password = %s WHERE id = %s', (hashed_password, user_id))
+    mysql.connection.commit()
+    cursor.close()
+    
+    flash('Password updated successfully.', 'success')
+    return redirect(url_for('user_space'))
 
 
 @app.route('/logout')

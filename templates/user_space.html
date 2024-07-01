@@ -5,103 +5,133 @@
 
 <div class="user-background"></div>
 
+<div class="container my-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="alert-container">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endwith %}
+</div>
+
 <div class="container my-5">
   <div class="row">
-    <div class="col-md-4 mb-4">
-      <div class="card custom-card-color">
+    <div class="col-md-6 mb-4">
+      <div class="card custom-card-color"> 
         <div class="card-body">
           <h5 class="card-title text-center">Reservation</h5>
-          <ul>
-            {% for reservation in reservations %}
-              <li>Reservation ID: {{ reservation[0] }}, Date: {{ reservation[3] }}, Time: {{ reservation[4] }}, Total People: {{ reservation[2] }}</li>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Modifier" style="margin-bottom: 10px; width: 115px">Modifier</button>
-              <br>
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Supprimer">Supprimer</button>
+          <div class="reservation-list-container">
+            <ul>
+              {% for reservation in reservations %}
+                <li>Reservation number: {{ reservation[0] }}, Date: {{ reservation[3] }}, Time: {{ reservation[4] }}, Total People: {{ reservation[2] }}</li>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Modifier" style="margin-bottom: 20px; width: 110px; margin-top: 15px">Modifier</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Supprimer" style="margin-bottom: 20px; width: 110px; margin-top: 15px">Supprimer</button>
 
-              <!-- Modal de confirmation de suppression -->
-              <div class="modal fade" id="modal{{ reservation[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}SupprimerLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="modal{{ reservation[0] }}SupprimerLabel">Supprimer la reservation</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      Êtes-vous sûr de vouloir supprimer cette reservation ?
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-                      <a href="{{ url_for('delete_reservation', reservation_id=reservation[0]) }}" class="btn btn-danger">Oui</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-    
-              <!-- Modal de modification -->
-              <div class="modal fade" id="modal{{ reservation[0] }}Modifier" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}ModifierLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="modal{{ reservation[0] }}ModifierLabel">Modifier la reservation</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form method="POST" action="{{ url_for('modify_reservation', reservation_id=reservation[0]) }}">
+                <!-- Modal de confirmation de suppression -->
+                <div class="modal fade" id="modal{{ reservation[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}SupprimerLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="modal{{ reservation[0] }}SupprimerLabel">Supprimer la reservation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
                       <div class="modal-body">
-                        <div class="form-group">
-                          <label for="date{{ reservation[0] }}" >Date</label>
-                          <input type="date" class="form-control" id="inputDate{{ reservation[0] }}" name="date" value="{{ reservation[3] }}" required>
-                          <div id="mondayWarning" style="display: none; color: red;">Reservations are not allowed on Mondays.</div>
-                        </div>
-                        <div class="form-group">
-                          <label for="time{{ reservation[0] }}" >Time</label>
-                          <input type="time" class="form-control" id="inputTime{{ reservation[0] }}" name="time" value="{{ reservation[4] }}" required>
-                          <div id="timeWarning" style="display: none; color: red;">Reservations are allowed only between 12:00 and 23:00.</div>
-                        </div>
-                       
-                        <div class="form-group col-md-6">
-                          <label for="inputPeople{{ reservation[0] }}" class="custom-label">Number of People</label>
-                          <select class="form-control" id="inputPeople{{ reservation[0] }}" name="totalPerson" value="{{ reservation[2] }}" required>
-                            {% for i in range(1, 11) %}
-                              <option>{{ i }}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
+                        Êtes-vous sûr de vouloir supprimer cette reservation ?
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-                        <button type="submit" class="btn btn-primary">Oui</button>
+                        <a href="{{ url_for('delete_reservation', reservation_id=reservation[0]) }}" class="btn btn-danger">Oui</a>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-            {% endfor %}
-          </ul>
+      
+                <!-- Modal de modification -->
+                <div class="modal fade" id="modal{{ reservation[0] }}Modifier" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}ModifierLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="modal{{ reservation[0] }}ModifierLabel">Modifier la reservation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <form method="POST" action="{{ url_for('modify_reservation', reservation_id=reservation[0]) }}">
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <label for="date{{ reservation[0] }}" >Date</label>
+                            <input type="date" class="form-control" id="inputDate{{ reservation[0] }}" name="date" value="{{ reservation[3] }}" required>
+                            <div id="mondayWarning" style="display: none; color: red;">Reservations are not allowed on Mondays.</div>
+                          </div>
+                          <div class="form-group">
+                            <label for="time{{ reservation[0] }}" >Time</label>
+                            <input type="time" class="form-control" id="inputTime{{ reservation[0] }}" name="time" value="{{ reservation[4] }}" required>
+                            <div id="timeWarning" style="display: none; color: red;">Reservations are allowed only between 12:00 and 23:00.</div>
+                          </div>
+                        
+                          <div class="form-group col-md-6">
+                            <label for="inputPeople{{ reservation[0] }}" class="custom-label">Number of People</label>
+                            <select class="form-control" id="inputPeople{{ reservation[0] }}" name="totalPerson" value="{{ reservation[2] }}" required>
+                              {% for i in range(1, 11) %}
+                                <option>{{ i }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                          <button type="submit" class="btn btn-primary">Yes</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-md-4 offset-md-4 mb-4">
+    <div class="col-md-4 offset-md-2 mb-4">
       <div class="card custom-card-color">
         <div class="card-body">
-          <h5 class="card-title text-center">Card 2</h5>
-        </div>
-      </div>
-    </div>
-    
-    <div class="col-md-6 mb-4">
-      <div class="card custom-card-color">
-        <div class="card-body">
-          <h5 class="card-title text-center">Card 3</h5>
+          <h5 class="card-title text-center">User</h5>
+        
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="inputNewPassword" class="custom-label">New password</label>
+              <form method="POST" action="{{ url_for('change_password') }}">
+                <div class="input-group">
+                  <input type="password" class="form-control" id="inputNewPassword" name="newPassword" placeholder="Password" maxlength="255" 
+                         pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$" 
+                         title="Password must be at least 8 characters long, with at least one uppercase letter, one symbol, and one number" 
+                         oninput="this.value = this.value.replace(/ /g, '')" required>
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary" style="margin-left: 20px">Yes</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+
 <div class="container my-3 d-flex justify-content-center">
   <a href="{{ url_for('index') }}" class="btn">
-    <img src="{{ url_for('static', filename='sources/ristoranteilcapo.png') }}" alt="Home" style="width: 100px; height: 80px; margin-right: 8px;">
+    <img src="{{ url_for('static', filename='sources/ristoranteHome.png') }}" alt="Home" style="width: 100px; height: 80px; margin-right: 8px;">
   </a>
 </div>
 
