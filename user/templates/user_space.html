@@ -50,7 +50,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-                        <a href="{{ url_for('delete_reservation', reservation_id=reservation[0]) }}" class="btn btn-danger">Oui</a>
+                        <a href="{{ url_for('user.delete_reservation', reservation_id=reservation[0]) }}" class="btn btn-danger">Oui</a>
                       </div>
                     </div>
                   </div>
@@ -64,7 +64,7 @@
                         <h5 class="modal-title" id="modal{{ reservation[0] }}ModifierLabel">Modifier la reservation</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <form method="POST" action="{{ url_for('modify_reservation', reservation_id=reservation[0]) }}">
+                      <form method="POST" action="{{ url_for('user.modify_reservation', reservation_id=reservation[0]) }}">
                         <div class="modal-body">
                           <div class="form-group">
                             <label for="date{{ reservation[0] }}" >Date</label>
@@ -109,7 +109,7 @@
           <div class="form-row">
             <div class="form-group col-md-12">
               <label for="inputNewPassword" class="custom-label">New password</label>
-              <form method="POST" action="{{ url_for('change_password') }}">
+              <form method="POST" action="{{ url_for('user.change_password') }}">
                 <div class="input-group">
                   <input type="password" class="form-control" id="inputNewPassword" name="newPassword" placeholder="Password" maxlength="255" 
                          pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$" 
@@ -130,7 +130,7 @@
 
 
 <div class="container my-3 d-flex justify-content-center">
-  <a href="{{ url_for('index') }}" class="btn">
+  <a href="{{ url_for('index.index') }}" class="btn">
     <img src="{{ url_for('static', filename='sources/ristoranteHome.png') }}" alt="Home" style="width: 100px; height: 80px; margin-right: 8px;">
   </a>
 </div>

@@ -6,7 +6,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top ">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          <img src="static/sources/ristoranteLogoNav.svg" alt="Ristorante Il Capo" style="height: 40px;">
+          <img src="{{ url_for('static', filename='sources/ristoranteLogoNav.svg') }}" alt="Ristorante Il Capo" style="height: 40px;">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="navbarToggler">
           <span class="navbar-toggler-icon"></span>
@@ -24,17 +24,17 @@
             </li>
             {% if session.get('user_id') %}
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('user_space')}}">User Space</a>
+              <a class="nav-link" href="{{ url_for('user.user_space')}}">User Space</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('logout')}}">Logout</a>
+              <a class="nav-link" href="{{ url_for('user.logout')}}">Logout</a>
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('login')}}">Login</a>
+              <a class="nav-link" href="{{ url_for('login.login')}}">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('sign_up')}}">Sign up</a>
+              <a class="nav-link" href="{{ url_for('sign_up.sign_up')}}">Sign up</a>
             </li>
             {% endif %}
           </ul>
@@ -52,7 +52,7 @@
 
   <div class="hero-section" id="index">
     <div id="logo-animation" class="logo-animation">
-      <img src="static/sources/RistoranteIndex-svg.svg" alt="Ristorante Il Capo open" class="logo-image">
+      <img src="{{ url_for('static', filename='sources/RistoranteIndex-svg.svg') }}"  alt="Ristorante Il Capo open" class="logo-image">
     </div>
   </div>
 
