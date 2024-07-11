@@ -10,7 +10,7 @@
       <h5 class="card-title text-center" style="font-weight: bold; font-size: 24px;">Login</h5>
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-          <div class="alert-container">
+          <div class="alert-container" id="alertMessage">
             {% for category, message in messages %}
               <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
                 {{ message }}

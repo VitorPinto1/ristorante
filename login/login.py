@@ -9,6 +9,10 @@ def login():
         name = request.form['name']
         password = request.form['password']
 
+        if not name or not password:
+            flash('All fields are required!', 'danger')
+            return make_response(render_template('login.html'), 401)
+
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT * FROM users WHERE name = %s", (name,))
         user = cursor.fetchone()
@@ -22,11 +26,14 @@ def login():
                     session['user_email'] = user[3]  
                     return redirect(url_for('user.user_space'))
                 else:
-                    flash('Invalid email or password', 'danger')
+                    flash('Invalid name or password', 'danger')
+                    return make_response(render_template('login.html'), 401)
             except ValueError as ve:
                 logging.error(f'Error during password verification: {ve}')
                 flash('There was an error with your login. Please try again.', 'danger')
+                return make_response(render_template('login.html'), 401)
         else:
-            flash('Invalid email or password.', 'danger')
+            flash('Invalid name or password', 'danger')
+            return make_response(render_template('login.html'), 401)
 
     return render_template('login.html')

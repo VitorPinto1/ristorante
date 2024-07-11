@@ -10,21 +10,27 @@ def sign_up():
             email = request.form['email']
             password = request.form['password']
 
+            if not name or not email or not password:
+                flash('All fields are required!', 'danger')
+                return make_response(render_template('sign_up.html'), 401)
+
             cursor = mysql.connection.cursor()
 
             cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
-            existing_user = cursor.fetchone()
-            if existing_user:
+            existing_email = cursor.fetchone()
+            if existing_email:
                 flash('Email address already exists', 'danger')
                 cursor.close()
-                return redirect(url_for('sign_up.sign_up'))
+                return make_response(render_template('sign_up.html'), 401)
+
             
             cursor.execute("SELECT * FROM users WHERE name = %s", (name,))
             existing_user_name = cursor.fetchone()
             if existing_user_name:
                 flash('Username already exists', 'danger')
                 cursor.close()
-                return redirect(url_for('sign_up.sign_up'))
+                return make_response(render_template('sign_up.html'), 401)
+
 
             hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
             cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)", (name, email, hashed_password))
@@ -44,11 +50,12 @@ def sign_up():
             except Exception as e:
                 logging.error(f'Failed to send confirmation email: {e}')
                 flash(f'Failed to send confirmation email: {e}', 'danger')
+                return make_response(render_template('sign_up.html'), 500)
 
             return redirect(url_for('index.index'))
         except Exception as e:
             flash(f'Error: {e}', 'danger')
-            return redirect(url_for('sign_up.sign_up'))
+            return make_response(render_template('sign_up.html'), 500)
 
     return render_template('sign_up.html')
 

@@ -5,6 +5,9 @@ from sign_up import signUp_bp
 from reservation import reservation_bp
 from user import user_bp
 from index import index_bp
+from flask import render_template
+import sys
+import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
