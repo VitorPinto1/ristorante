@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}Reservation Confirmation{% endblock %}
 {% block content %}
 
@@ -7,8 +6,7 @@
   <div class="card w-100 form-animate custom-card-color" style="max-width: 600px;">
     <div class="card-body">
       <h5 class="card-title text-center" style="font-weight: bold; font-size: 24px;">Reservation</h5>
-     
-
+        <!-- Flash messages block to display any messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div id="flash-messages">
@@ -22,7 +20,6 @@
                 </div>
             {% endif %}
         {% endwith %}
-       
         <div class="form-group d-flex justify-content-center">
           <a href="{{ url_for('index') }}" class="btn" id="buttonConfirmation">Return to Home</a>
         </div>
@@ -30,6 +27,7 @@
   </div>
 </div>
 
+<!-- Script to initialize Bootstrap alerts for flash messages -->
 <script>
     $(document).ready(function() {
         if ($("#flash-messages .alert").length > 0) {

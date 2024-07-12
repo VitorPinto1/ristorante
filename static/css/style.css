@@ -9,13 +9,10 @@ html, body {
   display: none;
 }
 
-
 .img-animate {
   max-width: 40%;
   height: auto;
 }
-
-
 
 #buttonReservation {
   background-color: #dfc99c;
@@ -34,7 +31,6 @@ html, body {
   box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.1); /* Añadir sombra */
   margin: 20px 0;
 }
-
 
 .custom-label {
   font-size: 16px;
@@ -62,13 +58,11 @@ html, body {
   z-index: -1;
 }
 
-
 header {
 
   padding: 0px;
 
 }
-
 
 #main-content {
   display: flex;
@@ -88,7 +82,6 @@ header {
   background-color: white; 
 }
 
-
 @keyframes scrollReveal {
   from {
     transform: scaleY(0);
@@ -99,7 +92,6 @@ header {
     transform-origin: top;
   }
 }
-
 
 .img-animate {
   transform: scaleY(0);
@@ -121,8 +113,6 @@ header {
   }
 }
 
-
-
 .form-animate {
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -130,8 +120,6 @@ header {
 .form-animate.visible {
   opacity: 1;
 }
-
-
 
 .custom-card-color  {
   background-color: #f4f1e4;
@@ -142,7 +130,6 @@ header {
   display: flex;
   flex-direction: column;
 }
-
 
 .about-us-section {
   background-color: #f4f1e4; 
@@ -166,7 +153,6 @@ header {
   bottom: 0;
   left: 0;
 
-
 }
 .footer.visible {
   display: block; 
@@ -180,8 +166,6 @@ header {
   min-width: 40%; 
 }
 
-
-
 #textAboutUs {
   flex: 1;
   min-width: 20%; 
@@ -189,8 +173,6 @@ header {
   font-size: 20px;
   margin-top: -2%;
 }
-
-
 
 .contact-info {
   display: flex;
@@ -202,11 +184,6 @@ header {
   height: 1%;
   margin-right: 3%
 }
-
-
-
-
-
 
 .logo-animation {
   animation: fadeIn 2s forwards;
@@ -234,7 +211,6 @@ header {
   position: fixed;
 }
 
-
 #mondayWarning {
   font-size: 10px;
 }
@@ -242,8 +218,6 @@ header {
 #timeWarning {
   font-size: 10px;
 }
-
-
 
 @media (max-width: 767px) {
   .map-container {
@@ -270,13 +244,10 @@ header {
   }
 }
 
-
-
 .reservation-list-container {
   max-height: 400px; 
   overflow-y: auto;
 }
-
 
 .user_space-background {
   background-color: #f4f1e4; 
@@ -286,7 +257,6 @@ header {
   justify-content: center;
   margin: 0;
 }
-
 
 #buttonSign_up {
   background-color: #dfc99c;

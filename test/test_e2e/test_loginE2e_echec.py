@@ -1,5 +1,3 @@
-
-
 import subprocess
 import time
 import os
@@ -23,30 +21,33 @@ def wait_for_server(url, timeout=30):
         if time.time() - start_time > timeout:
             raise TimeoutError("Timed out waiting for the server to start")
         time.sleep(1)
-
 server = subprocess.Popen(["python", "app.py"])
-
 try:
     wait_for_server("http://127.0.0.1:5000/login/login")
     driver = webdriver.Chrome()
     try:
+        # Navigate to the login page
         driver.get("http://127.0.0.1:5000/login/login")
         email_input = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "inputName"))
         )
         email_input.send_keys("testuser")
+
+        # Wait for the password input element to be present and enter the password
         password_input = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "inputPassword"))
         )
         password_input.send_keys("Fail12345#")
         login_button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
         login_button.click()
+
+        # Wait for the alert message element to be present, indicating a login attempt result
         WebDriverWait(driver, 100).until(
             EC.presence_of_element_located((By.ID, "alertMessage"))
         )
-        print("Test de connexion non réussi!")
+        print("Test login successful. Unable to log in")
     except Exception as e:
-        print(f"Test échoué : {e} - L'erreur peut être liée à un problème de connexion ou à la non présence de l'élément.")
+        print(f"Test failed : {e} - The error may be related to a connection issue or the absence of the element.")
     finally:
         driver.quit()
 finally:

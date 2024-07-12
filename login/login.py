@@ -1,6 +1,6 @@
 from config import *
 
-
+# Create a Blueprint named 'login' with templates located in the 'templates' folder
 login_bp = Blueprint('login', __name__, template_folder='templates')
 
 @login_bp.route('/login', methods=['GET', 'POST'])
@@ -8,16 +8,15 @@ def login():
     if request.method == 'POST':
         name = request.form['name']
         password = request.form['password']
-
+        # Check if name or password is missing
         if not name or not password:
             flash('All fields are required!', 'danger')
             return make_response(render_template('login.html'), 401)
-
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT * FROM users WHERE name = %s", (name,))
         user = cursor.fetchone()
         cursor.close()
-
+        # If user is found in the database
         if user:
             try:
                 if bcrypt.check_password_hash(user[2], password):
@@ -35,5 +34,4 @@ def login():
         else:
             flash('Invalid name or password', 'danger')
             return make_response(render_template('login.html'), 401)
-
     return render_template('login.html')

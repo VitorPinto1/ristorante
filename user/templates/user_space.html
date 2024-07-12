@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
-
 {% block title %}User space{% endblock %}
 {% block content %}
 
 <div class="user-background"></div>
-
 <div class="container my-3">
   {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -23,7 +21,6 @@
   {% endif %}
   {% endwith %}
 </div>
-
 <div class="container my-5">
   <div class="row">
     <div class="col-md-6 mb-4">
@@ -37,7 +34,7 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Modifier" style="margin-bottom: 20px; width: 110px; margin-top: 15px">Modifier</button>
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Supprimer" style="margin-bottom: 20px; width: 110px; margin-top: 15px">Supprimer</button>
 
-                <!-- Modal de confirmation de suppression -->
+                <!-- Modal for delete confirmation -->
                 <div class="modal fade" id="modal{{ reservation[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}SupprimerLabel" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -56,7 +53,7 @@
                   </div>
                 </div>
       
-                <!-- Modal de modification -->
+                <!-- Modal for modifying reservation -->
                 <div class="modal fade" id="modal{{ reservation[0] }}Modifier" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}ModifierLabel" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -100,12 +97,10 @@
         </div>
       </div>
     </div>
-
     <div class="col-md-4 offset-md-2 mb-4">
       <div class="card custom-card-color">
         <div class="card-body">
           <h5 class="card-title text-center">User</h5>
-        
           <div class="form-row">
             <div class="form-group col-md-12">
               <label for="inputNewPassword" class="custom-label">New password</label>
@@ -127,17 +122,15 @@
     </div>
   </div>
 </div>
-
-
 <div class="container my-3 d-flex justify-content-center">
   <a href="{{ url_for('index.index') }}" class="btn">
     <img src="{{ url_for('static', filename='sources/ristoranteHome.png') }}" alt="Home" style="width: 100px; height: 80px; margin-right: 8px;">
   </a>
 </div>
 
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // Apply flatpickr to all time inputs
     document.querySelectorAll('[id^="inputTime"]').forEach(function(timeInput) {
       flatpickr(timeInput, {
         enableTime: true,
@@ -147,7 +140,7 @@
         minTime: "12:00",
         maxTime: "23:00"
       });
-
+      // Add input event listener to time inputs
       timeInput.addEventListener('input', function(e) {
         const time = e.target.value;
         const [hours, minutes] = time.split(':').map(Number);
@@ -160,7 +153,7 @@
         }
       });
     });
-
+    // Apply constraints to date inputs
     document.querySelectorAll('[id^="inputDate"]').forEach(function(dateInput) {
       var today = new Date();
       var tomorrow = new Date();
@@ -170,7 +163,7 @@
       var yyyy = tomorrow.getFullYear();
       var minDate = yyyy + '-' + mm + '-' + dd;
       dateInput.setAttribute('min', minDate);
-
+      // Add input event listener to date inputs
       dateInput.addEventListener('input', function(e) {
         const inputDate = new Date(e.target.value);
         const dayOfWeek = inputDate.getUTCDay();

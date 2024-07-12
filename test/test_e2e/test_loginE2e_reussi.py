@@ -1,4 +1,3 @@
-
 import subprocess
 import time
 import os
@@ -28,24 +27,28 @@ try:
     wait_for_server("http://127.0.0.1:5000/login/login")
     driver = webdriver.Chrome()
     try:
+        # Navigate to the login page
         driver.get("http://127.0.0.1:5000/login/login")
-        email_input = WebDriverWait(driver, 10).until(
+        name_input = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "inputName"))
         )
-        email_input.send_keys("testuser")
+        name_input.send_keys("testuser")
+        
+        # Wait for the password input element to be present and enter the password
         password_input = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "inputPassword"))
         )
         password_input.send_keys("Testuser1#")
         login_button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
         login_button.click()
+        
+        # Wait for the user reservation element to be present, indicating a successful login
         WebDriverWait(driver, 100).until(
             EC.presence_of_element_located((By.ID, "userReservation"))
         )
-
-        print("Test de connexion réussi!")
+        print("Test login successful. Login successful. ")
     except Exception as e:
-        print(f"Test échoué : {e} - L'erreur peut être liée à un problème de connexion ou à la non présence de l'élément.")
+        print(f"Test failed : {e} - The error may be related to a connection issue or the absence of the element.")
     finally:
         driver.quit()
 finally:

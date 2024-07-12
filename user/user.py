@@ -1,17 +1,14 @@
 from config import *
 
-
+# Create a Blueprint for user-related routes
 user_bp = Blueprint('user', __name__, template_folder='templates')
-
 
 @user_bp.route('/user_space')
 def user_space():
     if 'user_id' not in session:
         flash('You need to login first', 'danger')
         return redirect(url_for('login.login'))
-    
     user_id = session['user_id']
-    
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT * FROM reservation WHERE user_id = %s', (user_id,))
     reservations = cursor.fetchall()
@@ -23,20 +20,15 @@ def change_password():
     if 'user_id' not in session:
         flash('You need to login first', 'danger')
         return redirect(url_for('login'))
-    
     user_id = session['user_id']
     new_password = request.form['newPassword']
-    
     hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-    
     cursor = mysql.connection.cursor()
     cursor.execute('UPDATE users SET password = %s WHERE id = %s', (hashed_password, user_id))
     mysql.connection.commit()
     cursor.close()
-    
     flash('Password updated successfully.', 'success')
     return redirect(url_for('user.user_space'))
-
 
 @user_bp.route('/reservation/<int:reservation_id>/delete', methods=['GET', 'POST'])
 def delete_reservation(reservation_id):
@@ -52,7 +44,6 @@ def modify_reservation(reservation_id):
     new_date = request.form['date']
     new_time = request.form['time']
     new_total_person = request.form['totalPerson']
-    
     cursor = mysql.connection.cursor()
     cursor.execute('''
         UPDATE reservation
@@ -63,9 +54,6 @@ def modify_reservation(reservation_id):
     cursor.close()
     flash('Reservation modified successfully.', 'success')
     return redirect(url_for('user.user_space'))
-
-
-
 
 @user_bp.route('/logout')
 def logout():

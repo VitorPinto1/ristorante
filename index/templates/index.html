@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}Ristorante "Il Capo"{% endblock %}
 {% block content %}
   <header>
@@ -41,39 +40,24 @@
         </div>
       </div>
     </nav>
-
-
-
   </header>
-
   <main>
     <div class="container my-2 py3"></div>
   </main>
-
   <div class="hero-section" id="index">
     <div id="logo-animation" class="logo-animation">
       <img src="{{ url_for('static', filename='sources/RistoranteIndex-svg.svg') }}"  alt="Ristorante Il Capo open" class="logo-image">
     </div>
   </div>
-
   <div id="menu-section" class="scroll-section">
     {% include 'menu.html' %}
   </div>
-
   <div id="reservation-section" class="scroll-section">
     {% include 'reservation.html' %}
   </div>
-
   <div id="about_us-section" class="scroll-section">
     {% include 'about_us.html' %}
   </div>
-
-
-
-
 <script>
-
 </script>
-
-
 {% endblock %}

@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS users (
     active BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-
 CREATE TABLE IF NOT EXISTS reservation (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50),
@@ -24,8 +23,5 @@ CREATE TABLE IF NOT EXISTS reservation (
     user_id INT, 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
-
-
-
 
 COMMIT;

@@ -33,7 +33,6 @@ def app():
     mail = Mail(flask_app)
     ts = URLSafeTimedSerializer(flask_app.config['SECRET_KEY'])
     flask_app.ts = ts
-    
     try:
         with flask_app.app_context():
             yield flask_app

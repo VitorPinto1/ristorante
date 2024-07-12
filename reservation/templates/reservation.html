@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}Reservation{% endblock %}
 {% block content %}
 
@@ -7,12 +6,11 @@
   <div class="card w-100 form-animate custom-card-color" style="max-width: 600px;">
     <div class="card-body">
       <h5 class="card-title text-center" style="font-weight: bold; font-size: 24px;">Reservation</h5>
-     
-
       <form method="POST" action="{{ url_for('reservation.reservation') }}">
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputName" class="custom-label">Name</label>
+            <!-- Pre-filled name field if user is logged in -->
             {% if user_name %}
               <input type="text" class="form-control" id="inputNameUser" name="name" placeholder="Name" maxlength="50" value="{{ user_name }}" pattern="^[A-Za-z]+( [A-Za-z]+)?$" readonly>
             {% else %}
@@ -50,6 +48,7 @@
         </div>
         <div class="form-group col-md-6">
           <label for="inputEmail" class="custom-label">E-mail</label>
+          <!-- Pre-filled email field if user is logged in -->
           {% if user_email %}
             <input type="email" class="form-control" id="inputEmailUser" name="email"  value="{{ user_email }}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" readonly>
           {% else %}
@@ -64,12 +63,8 @@
   </div>
 </div>
 
-
-
-
-
 <script>
-
+  // Initialize flatpickr for time selection with specific options
   document.addEventListener('DOMContentLoaded', function() {
     flatpickr("#inputTime", {
       enableTime: true,
@@ -80,6 +75,7 @@
       maxTime: "23:00"
     });
 
+    // Set minimum date to tomorrow for the date input
     var today = new Date();
     var tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
@@ -88,7 +84,8 @@
     var yyyy = tomorrow.getFullYear();
     var minDate = yyyy + '-' + mm + '-' + dd;
     document.getElementById('inputDate').setAttribute('min', minDate);
-    
+
+    // Add event listener to date input to check if the selected day is Monday
     document.getElementById('inputDate').addEventListener('input', function(e) {
       const inputDate = new Date(e.target.value);
       const dayOfWeek = inputDate.getUTCDay();
@@ -100,7 +97,8 @@
         warning.style.display = 'none';
       }
     });
-
+    
+    // Add event listener to time input to check if the selected time is within operating hours
     document.getElementById('inputTime').addEventListener('input', function(e) {
       const time = e.target.value;
       const [hours, minutes] = time.split(':').map(Number);
@@ -113,8 +111,5 @@
       }
     });
   });
-
 </script>
-
-
 {% endblock %}
