@@ -18,15 +18,6 @@ env = os.getenv('FLASK_ENV', 'development')
 dotenv_path = f'.env.{env}'
 load_dotenv(dotenv_path)
 
-print(f"Current environment: {env}")
-print(f"MYSQL_USER: {os.getenv('MYSQL_USER')}")
-print(f"MYSQL_PASSWORD: {os.getenv('MYSQL_PASSWORD')}")
-print(f"MYSQL_DB: {os.getenv('MYSQL_DATABASE')}")
-print(f"MYSQL_HOST: {os.getenv('MYSQL_HOST')}")
-print(f"MYSQL_PORT: {os.getenv('MYSQL_PORT')}")
-print(f"APP_SECRETKEY: {os.getenv('APP_SECRETKEY')}")
-
-
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRETKEY')
 
@@ -40,14 +31,13 @@ mysql = MySQL(app)
 bcrypt = Bcrypt(app)
 bootstrap = Bootstrap(app)
 
-
-app.config['MAIL_DEFAULT_SENDER'] = 'staniaprojets@gmail.com'
-app.config['MAIL_SERVER']='localhost'
-app.config['MAIL_PORT'] = 1025
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER')
+app.config['MAIL_SERVER']= os.environ.get('MAIL_SERVER')
+app.config['MAIL_PORT'] =os.environ.get('MAIL_PORT')
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS', 'false').strip().lower() in ['true', '1', 't']
+app.config['MAIL_USE_SSL'] = os.environ.get('MAIL_USE_SSL', 'false').strip().lower() in ['true', '1', 't']
 
 mail = Mail(app)
 
