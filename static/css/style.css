@@ -219,6 +219,10 @@ header {
   font-size: 10px;
 }
 
+#currentTimeWarning {
+  font-size: 10px;
+}
+
 @media (max-width: 767px) {
   .map-container {
     margin-top: 20px; 

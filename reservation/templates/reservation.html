@@ -46,6 +46,9 @@
             Ristorante 'Il Capo' is open from 12:00 to 23:00. Please choose a time between 12:00 and 23:00.
           </div>
         </div>
+        <div id="currentTimeWarning" class="alert alert-danger text-center" style="display: none;">
+          Please choose a time at least one hour later than the current time.
+        </div>
         <div class="form-group col-md-6">
           <label for="inputEmail" class="custom-label">E-mail</label>
           <!-- Pre-filled email field if user is logged in -->
@@ -75,16 +78,24 @@
       maxTime: "23:00"
     });
 
-    // Set minimum date to tomorrow for the date input
+    // Set minimum date to today for the date input
     var today = new Date();
-    var tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
-    var dd = String(tomorrow.getDate()).padStart(2, '0');
-    var mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); 
-    var yyyy = tomorrow.getFullYear();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    var yyyy = today.getFullYear();
     var minDate = yyyy + '-' + mm + '-' + dd;
     document.getElementById('inputDate').setAttribute('min', minDate);
 
+    // Function to toggle the 'Validation' button state
+    function toggleButtonState() {
+      const mondayWarning = document.getElementById('mondayWarning').style.display !== 'none';
+      const timeWarning = document.getElementById('timeWarning').style.display !== 'none';
+      const currentTimeWarning = document.getElementById('currentTimeWarning').style.display !== 'none';
+      document.getElementById('buttonReservation').disabled = mondayWarning || timeWarning || currentTimeWarning;
+    }
+
+
+    
     // Add event listener to date input to check if the selected day is Monday
     document.getElementById('inputDate').addEventListener('input', function(e) {
       const inputDate = new Date(e.target.value);
@@ -96,20 +107,44 @@
       } else {
         warning.style.display = 'none';
       }
+      // Clear the current time warning when the date changes
+      currentTimeWarning.style.display = 'none';
+      toggleButtonState();
     });
-    
+
+   
+
     // Add event listener to time input to check if the selected time is within operating hours
     document.getElementById('inputTime').addEventListener('input', function(e) {
       const time = e.target.value;
       const [hours, minutes] = time.split(':').map(Number);
       const warning = document.getElementById('timeWarning');
+      const currentTimeWarning = document.getElementById('currentTimeWarning');
+      
       if (hours < 12 || hours >= 23) {
         e.target.value = '';
         warning.style.display = 'block';
       } else {
         warning.style.display = 'none';
       }
+
+      const selectedDate = new Date(document.getElementById('inputDate').value);
+      if (selectedDate.toDateString() === today.toDateString()) {
+        const currentTime = new Date();
+        currentTime.setHours(currentTime.getHours() + 1); 
+        const selectedTime = new Date();
+        selectedTime.setHours(hours, minutes);
+        
+        if (selectedTime <= currentTime) {
+          e.target.value = '';
+          currentTimeWarning.style.display = 'block';
+        } else {
+          currentTimeWarning.style.display = 'none';
+        }
+      }
+      toggleButtonState();
     });
   });
 </script>
+
 {% endblock %}
