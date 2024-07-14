@@ -9,19 +9,19 @@
       <form method="POST" action="{{ url_for('reservation.reservation') }}">
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="inputName" class="custom-label">Name</label>
+            <label for="inputName" class="custom-label">{% if user_name %}User{% else %}Name{% endif %}</label>
             <!-- Pre-filled name field if user is logged in -->
             {% if user_name %}
               <input type="text" class="form-control" id="inputNameUser" name="name" placeholder="Name" maxlength="50" value="{{ user_name }}" pattern="^[A-Za-z]+( [A-Za-z]+)?$" readonly>
             {% else %}
-              <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" maxlength="50" pattern="^[A-Za-z]+( [A-Za-z]+)?$" required>
+              <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" maxlength="50" pattern="^[A-Za-z]+( [A-Za-z]+)+$" required oninvalid="this.setCustomValidity('Please enter your first and last name.')" oninput="this.setCustomValidity('')">
             {% endif %}
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputPeople" class="custom-label">Number of People</label>
-            <select class="form-control" id="inputPeople" name="totalPerson" required>
+            <select class="form-control" id="inputPeople" name="totalPerson" required oninvalid="this.setCustomValidity('Please select the number of people.')" oninput="this.setCustomValidity('')">
               {% for i in range(1, 11) %}
                 <option>{{ i }}</option>
               {% endfor %}
@@ -29,7 +29,7 @@
           </div>
           <div class="form-group col-md-6">
             <label for="inputDate" class="custom-label">Date</label>
-            <input type="date" class="form-control" id="inputDate" name="date" required>
+            <input type="date" class="form-control" id="inputDate" name="date" required oninvalid="this.setCustomValidity('Please select a date.')" oninput="this.setCustomValidity('')">
           </div>
           <div class="form-group col-md-12 mt-2">
             <div id="mondayWarning" class="alert alert-danger text-center" style="display: none;">
@@ -39,7 +39,7 @@
         </div>
         <div class="form-group col-md-6">
           <label for="inputTime" class="custom-label">Time</label>
-          <input type="text" class="form-control" id="inputTime" name="time" required>
+          <input type="text" class="form-control" id="inputTime" name="time" required oninvalid="this.setCustomValidity('Please select a time.')" oninput="this.setCustomValidity('')">
         </div>
         <div class="form-group col-md-12 mt-2">
           <div id="timeWarning" class="alert alert-danger text-center" style="display: none;">
@@ -55,7 +55,7 @@
           {% if user_email %}
             <input type="email" class="form-control" id="inputEmailUser" name="email"  value="{{ user_email }}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" readonly>
           {% else %}
-            <input type="email" class="form-control" id="inputEmail" name="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+            <input type="email" class="form-control" id="inputEmail" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required oninvalid="this.setCustomValidity('Please enter a valid email address.')" oninput="this.setCustomValidity('')">
           {% endif %}
         </div>
         <div class="form-group d-flex justify-content-center">

@@ -31,34 +31,34 @@
             <ul>
               {% for reservation in reservations %}
                 <li>Reservation number: {{ reservation[0] }}, Date: {{ reservation[3] }}, Time: {{ reservation[4] }}, Total People: {{ reservation[2] }}</li>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Modifier" style="margin-bottom: 20px; width: 110px; margin-top: 15px">Modifier</button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Supprimer" style="margin-bottom: 20px; width: 110px; margin-top: 15px">Supprimer</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Modify" style="margin-bottom: 20px; width: 110px; margin-top: 15px">Modify</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ reservation[0] }}Delete" style="margin-bottom: 20px; width: 110px; margin-top: 15px">Delete</button>
 
                 <!-- Modal for delete confirmation -->
-                <div class="modal fade" id="modal{{ reservation[0] }}Supprimer" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}SupprimerLabel" aria-hidden="true">
+                <div class="modal fade" id="modal{{ reservation[0] }}Delete" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}DeleteLabel" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="modal{{ reservation[0] }}SupprimerLabel">Supprimer la reservation</h5>
+                        <h5 class="modal-title" id="modal{{ reservation[0] }}DeleteLabel">Cancel the reservation</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        Êtes-vous sûr de vouloir supprimer cette reservation ?
+                        Are you sure you want to cancel this reservation?
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-                        <a href="{{ url_for('user.delete_reservation', reservation_id=reservation[0]) }}" class="btn btn-danger">Oui</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <a href="{{ url_for('user.delete_reservation', reservation_id=reservation[0]) }}" class="btn btn-danger">Yes</a>
                       </div>
                     </div>
                   </div>
                 </div>
       
                 <!-- Modal for modifying reservation -->
-                <div class="modal fade" id="modal{{ reservation[0] }}Modifier" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}ModifierLabel" aria-hidden="true">
+                <div class="modal fade" id="modal{{ reservation[0] }}Modify" tabindex="-1" aria-labelledby="modal{{ reservation[0] }}ModifyLabel" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="modal{{ reservation[0] }}ModifierLabel">Modifier la reservation</h5>
+                        <h5 class="modal-title" id="modal{{ reservation[0] }}ModifyLabel">Modify the reservation</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <form method="POST" action="{{ url_for('user.modify_reservation', reservation_id=reservation[0]) }}">

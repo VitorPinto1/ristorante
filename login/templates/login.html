@@ -22,7 +22,7 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputName" class="custom-label">Name</label>
-            <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" maxlength="50" pattern="^[A-Za-z]+$" oninput="this.value = this.value.replace(/ /g, '')" required>
+            <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" maxlength="50" pattern="^[^\s]+$" required oninvalid="this.setCustomValidity('Please enter your name without spaces.')" oninput="this.setCustomValidity('')" >
           </div>
         </div>
         <div class="form-row">
@@ -30,8 +30,7 @@
             <label for="inputPassword" class="custom-label">Password</label>
             <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password" maxlength="255" 
                    pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$" 
-                   title="Password must be at least 8 characters long, with at least one uppercase letter, one symbol, and one number" 
-                   oninput="this.value = this.value.replace(/ /g, '')" required>
+                   required oninvalid="this.setCustomValidity('Password must be at least 8 characters long, with at least one uppercase letter, one symbol, and one number and no spaces')" oninput="this.setCustomValidity('')">
           </div>
         </div>
         <div class="form-group d-flex justify-content-center">
