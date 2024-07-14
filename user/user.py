@@ -15,16 +15,46 @@ def user_space():
     cursor.close()
     return render_template('user_space.html', name=session.get('user_name'), reservations=reservations)
 
+@user_bp.route('/change_password_page')
+def change_password_page():
+    if 'user_id' not in session:
+        flash('You need to login first', 'danger')
+        return redirect(url_for('login.login'))
+    return render_template('password_change.html')
+
+
 @user_bp.route('/change_password', methods=['POST'])
 def change_password():
     if 'user_id' not in session:
-        flash('You need to login first', 'danger')
-        return redirect(url_for('login'))
+        flash('You need to log in first', 'danger')
+        return redirect(url_for('login.login'))
     user_id = session['user_id']
+    current_password = request.form['currentPassword']
     new_password = request.form['newPassword']
-    hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+    confirm_password = request.form['confirmPassword']
+    
     cursor = mysql.connection.cursor()
-    cursor.execute('UPDATE users SET password = %s WHERE id = %s', (hashed_password, user_id))
+    cursor.execute('SELECT password FROM users WHERE id = %s', (user_id,))
+    user = cursor.fetchone()
+    cursor.close()
+
+    if user and len(user) > 0:
+        hashed_password = user[0]
+    else:
+        flash('Error retrieving user password.', 'danger')
+        return redirect(url_for('user.change_password_page'))
+
+    if not bcrypt.check_password_hash(hashed_password, current_password):
+        flash('Current password is incorrect.', 'danger')
+        return redirect(url_for('user.change_password_page'))
+
+    if new_password != confirm_password:
+        flash('New passwords do not match.', 'danger')
+        return redirect(url_for('user.change_password_page'))
+
+    new_hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+    cursor = mysql.connection.cursor()
+    cursor.execute('UPDATE users SET password = %s WHERE id = %s', (new_hashed_password, user_id))
     mysql.connection.commit()
     cursor.close()
     flash('Password updated successfully.', 'success')

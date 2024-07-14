@@ -97,26 +97,11 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4 offset-md-2 mb-4">
+    <div class="col-md-6 mb-4">
       <div class="card custom-card-color">
-        <div class="card-body">
-          <h5 class="card-title text-center">User</h5>
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <label for="inputNewPassword" class="custom-label">New password</label>
-              <form method="POST" action="{{ url_for('user.change_password') }}">
-                <div class="input-group">
-                  <input type="password" class="form-control" id="inputNewPassword" name="newPassword" placeholder="Password" maxlength="255" 
-                         pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$" 
-                         title="Password must be at least 8 characters long, with at least one uppercase letter, one symbol, and one number" 
-                         oninput="this.value = this.value.replace(/ /g, '')" required>
-                  <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary" style="margin-left: 20px">Yes</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+        <div class="card-body text-center">
+          <h5 class="card-title">User Settings</h5>
+          <a href="{{ url_for('user.change_password_page') }}" class="btn" id="buttonChangePass" style="margin-top: 20px;">Change Password</a>
         </div>
       </div>
     </div>
