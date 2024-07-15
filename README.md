@@ -4,7 +4,7 @@ ristorante
 Prerequisites
 
 -	Visual Studio Code
--	Extension Python pour VS Code
+-	Python Extension for VS Code
 -	Git
 -	Python 3.9
 -	Flask
