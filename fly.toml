@@ -6,7 +6,9 @@
 app = 'restaurant-ilcapo'
 primary_region = 'cdg'
 
+
 [build]
+  image = "vitorpinto500/restaurant-ilcapo:latest"
 
 [http_service]
   internal_port = 5000
