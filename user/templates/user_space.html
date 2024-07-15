@@ -23,8 +23,33 @@
 </div>
 <div class="container my-5">
   <div class="row">
-    <div class="col-md-6 mb-4">
-      <div class="card custom-card-color" id="userReservation"> 
+    <div class="col-md-4">
+      <!-- User Information -->
+      <div class="card custom-card-color mb-4" style="margin-top: 50px;">
+        <div class="card-body text-center">
+          <h5 class="card-title">User Information</h5>
+          <p><strong>Name:</strong> {{ user_name }}</p>
+          <p><strong>Email:</strong> {{ user_email }}</p>
+          {% if closest_reservation %}
+            <p><strong>Next Reservation:</strong> Number ({{closest_reservation.id}}) on {{ closest_reservation.day }} at {{ closest_reservation.time }} for {{ closest_reservation.totalPerson }} people</p>
+          {% else %}
+            <p>No upcoming reservations</p>
+          {% endif %}
+        </div>
+      </div>
+      <!-- User Settings -->
+      <div class="card custom-card-color" >
+        <div class="card-body text-center">
+          <h5 class="card-title">User Settings</h5>
+          <a href="{{ url_for('user.change_password_page') }}" class="btn" id="buttonChangePass" style="margin-top: 20px;">Change Password</a>
+        </div>
+      </div>
+      
+     
+    </div>
+    <div class="col-md-7">
+      <!-- Reservation Section -->
+      <div class="card custom-card-color" id="userReservation" style="margin-top: 50px;"> 
         <div class="card-body">
           <h5 class="card-title text-center">Reservation</h5>
           <div class="reservation-list-container">
@@ -96,14 +121,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-6 mb-4">
-      <div class="card custom-card-color">
-        <div class="card-body text-center">
-          <h5 class="card-title">User Settings</h5>
-          <a href="{{ url_for('user.change_password_page') }}" class="btn" id="buttonChangePass" style="margin-top: 20px;">Change Password</a>
-        </div>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -112,6 +130,8 @@
     <img src="{{ url_for('static', filename='sources/ristoranteHome.png') }}" alt="Home" style="width: 100px; height: 80px; margin-right: 8px;">
   </a>
 </div>
+
+
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {

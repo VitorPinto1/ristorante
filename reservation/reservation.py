@@ -71,8 +71,11 @@ def reservation():
             return redirect(url_for('reservation.reservation'))
     user_name = session.get('user_name', '')
     user_email = session.get('user_email', '')
+
     return render_template('reservation.html' , user_name=user_name, user_email=user_email)
 
 @reservation_bp.route('/confirmation')
 def confirmation():
     return render_template('confirmation.html')
+
+

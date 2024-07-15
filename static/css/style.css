@@ -39,8 +39,8 @@ html, body {
 }
 
 #reservation .card {
-  border-radius: 10px; /* Cambiar el radio de borde */
-  box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.1); /* Añadir sombra */
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.1); 
   margin: 20px 0;
 }
 
@@ -261,7 +261,7 @@ header {
 }
 
 .reservation-list-container {
-  max-height: 400px; 
+  max-height: 600px; 
   overflow-y: auto;
 }
 
