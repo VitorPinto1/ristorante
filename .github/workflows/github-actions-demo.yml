@@ -19,42 +19,32 @@ jobs:
 
       - name: Build Docker image
         run: docker build --no-cache -t vitorpinto500/restaurant-ilcapo:latest .
+
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
       - name: Push Docker image
         run: docker push vitorpinto500/restaurant-ilcapo:latest
 
       - name: Debug: List files in /app
         run: docker run --rm vitorpinto500/restaurant-ilcapo:latest ls -lR /app
 
+      - name: Write .env.test for tests
+        run: |
+          echo "FLASK_ENV=test" > .env.test
+          echo "APP_SECRETKEY=testrestaurant1234#" >> .env.test
+          # ... (agrega todas tus variables necesarias aquí)
+          
       - name: Run tests inside container with env file
         run: docker run --rm --env-file .env.test vitorpinto500/restaurant-ilcapo:latest pytest tests/
 
-      
-      - name: Wait for tests to finish
-        run: sleep 10
-
-      - name: Stop test container
-        run: docker stop restaurant-test || true
-
-      - name: Run container for integration test
-        run: |
-          docker run --rm -d -p 8080:5001 --name restaurant-int vitorpinto500/restaurant-ilcapo:latest
-         
-
-
-
-
-      - name: Stop container
-        run: docker stop restaurant-int
 
       - name: Install Flyctl
-        if: github.ref == 'refs/heads/main' 
+        if: github.ref == 'refs/heads/main'
         run: |
           curl -L https://fly.io/install.sh | sh
           echo "$HOME/.fly/bin" >> $GITHUB_PATH
 
-      
       - name: Deploy to Fly.io
         if: github.ref == 'refs/heads/main'
         run: flyctl deploy --remote-only
