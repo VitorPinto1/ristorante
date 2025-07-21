@@ -18,12 +18,14 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build Docker image
-        run: docker build -t vitorpinto500/restaurant-ilcapo:latest .
+        run: docker build --no-cache -t vitorpinto500/restaurant-ilcapo:latest .
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
       - name: Push Docker image
         run: docker push vitorpinto500/restaurant-ilcapo:latest
 
+      - name: Debug: List files in /app
+        run: docker run --rm vitorpinto500/restaurant-ilcapo:latest ls -lR /app
 
       - name: Run tests inside container with env file
         run: docker run --rm --env-file .env.test vitorpinto500/restaurant-ilcapo:latest pytest tests/
