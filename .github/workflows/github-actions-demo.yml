@@ -1,0 +1,63 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: docker build --no-cache -t vitorpinto500/restaurant-ilcapo:latest .
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Push Docker image
+        run: docker push vitorpinto500/restaurant-ilcapo:latest
+
+
+      - name: Generate .env.test from secrets
+        run: |
+          echo "FLASK_ENV=test" > .env.test
+          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env.test
+          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env.test
+          echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env.test
+          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env.test
+          echo "MYSQL_HOST=localhost" >> .env.test
+          echo "MAIL_PASSWORD=" >> .env.test
+          echo "APP_SECRETKEY=${{ secrets.APP_SECRETKEY }}" >> .env.test
+          echo "MYSQL_PORT=3306" >> .env.test
+          echo "MAIL_DEFAULT_SENDER=staniaprojets@gmail.com" >> .env.test
+          echo "MAIL_SERVER=localhost" >> .env.test
+          echo "MAIL_PORT=1025" >> .env.test
+          echo "MAIL_USE_TLS=false" >> .env.test
+          echo "MAIL_USE_SSL=false" >> .env.test
+
+
+      - name: Run tests inside container with env file
+        run: docker run --rm --env-file .env.test vitorpinto500/restaurant-ilcapo:latest pytest ./test/test_unit.py::test_homepage_renders
+
+
+
+      - name: Install Flyctl
+        if: github.ref == 'refs/heads/main'
+        run: |
+          curl -L https://fly.io/install.sh | sh
+          echo "$HOME/.fly/bin" >> $GITHUB_PATH
+
+      - name: Deploy to Fly.io
+        if: github.ref == 'refs/heads/main'
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

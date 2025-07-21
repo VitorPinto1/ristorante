@@ -1,3 +1,12 @@
 .gitignore
-test/
 
+.env.development
+.env.test
+
+__pycache__
+mysql_data/
+**/__pycache__/
+
+
+venv/
+.venv/

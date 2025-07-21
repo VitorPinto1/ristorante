@@ -1,2 +1,7 @@
 .env.development
 .env.test
+
+__pycache__/
+
+venv/
+.venv/
