@@ -2,6 +2,14 @@ from unittest.mock import patch, MagicMock
 from test.conftest import *
 
 
+def test_homepage_renders():
+    client = app.test_client()
+    response = client.get("/")
+    assert response.status_code == 200
+    assert b'Ristorante "Il Capo"' in response.data
+    assert b'Ristorante Il Capo' in response.data
+    assert b'id="menu-section"' in response.data
+
 # LOGIN
 
 

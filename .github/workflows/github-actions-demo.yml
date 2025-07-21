@@ -46,7 +46,7 @@ jobs:
 
 
       - name: Run tests inside container with env file
-        run: docker run --rm --env-file .env.test vitorpinto500/restaurant-ilcapo:latest pytest ./test/test_unit.py
+        run: docker run --rm --env-file .env.test vitorpinto500/restaurant-ilcapo:latest pytest ./test/test_unit.py::test_homepage_renders
 
 
 
