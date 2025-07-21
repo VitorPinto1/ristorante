@@ -46,7 +46,7 @@ jobs:
 
 
       - name: Run tests inside container with env file
-        run: docker run --rm --env-file .env.test vitorpinto500/restaurant-ilcapo:latest pytest tests/
+        run: docker run --rm --env-file .env.test vitorpinto500/restaurant-ilcapo:latest pytest test/
 
 
       - name: Install Flyctl
