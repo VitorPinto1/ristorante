@@ -26,23 +26,11 @@ jobs:
       - name: Push Docker image
         run: docker push vitorpinto500/restaurant-ilcapo:latest
 
+      - name: Generarte .env.development from secret
+        run: echo "${{ secrets.ENV_DEVELOPMENT }}" > .env.development
 
-      - name: Generate .env.test from secrets
-        run: |
-          echo "FLASK_ENV=test" > .env.test
-          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env.test
-          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env.test
-          echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env.test
-          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env.test
-          echo "MYSQL_HOST=localhost" >> .env.test
-          echo "MAIL_PASSWORD=" >> .env.test
-          echo "APP_SECRETKEY=${{ secrets.APP_SECRETKEY }}" >> .env.test
-          echo "MYSQL_PORT=3306" >> .env.test
-          echo "MAIL_DEFAULT_SENDER=staniaprojets@gmail.com" >> .env.test
-          echo "MAIL_SERVER=localhost" >> .env.test
-          echo "MAIL_PORT=1025" >> .env.test
-          echo "MAIL_USE_TLS=false" >> .env.test
-          echo "MAIL_USE_SSL=false" >> .env.test
+      - name: Generate .env.test from secret
+        run: echo "${{ secrets.ENV_TEST }}" > .env.test
 
 
       - name: Run tests inside container with env file
