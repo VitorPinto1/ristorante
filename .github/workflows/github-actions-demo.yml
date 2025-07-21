@@ -25,8 +25,9 @@ jobs:
         run: docker push vitorpinto500/restaurant-ilcapo:latest
 
 
-      - name: Run tests inside container
-        run: docker run --rm vitorpinto500/restaurant-ilcapo:latest pytest
+      - name: Run tests inside container with env file
+        run: docker run --rm --env-file .env.test vitorpinto500/restaurant-ilcapo:latest pytest tests/
+
       
       - name: Wait for tests to finish
         run: sleep 10
