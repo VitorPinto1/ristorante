@@ -35,7 +35,7 @@ jobs:
           echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env.test
           echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env.test
           echo "MYSQL_HOST=localhost" >> .env.test
-          echo "MAIL_PASSWORD= >> .env.test
+          echo "MAIL_PASSWORD=" >> .env.test
           echo "APP_SECRETKEY=${{ secrets.APP_SECRETKEY }}" >> .env.test
           echo "MYSQL_PORT=3306" >> .env.test
           echo "MAIL_DEFAULT_SENDER=staniaprojets@gmail.com" >> .env.test
