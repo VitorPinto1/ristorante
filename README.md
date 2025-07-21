@@ -10,43 +10,43 @@ Prerequisites
 -	Flask
 -	Mailtrap
 
-1.	Installation and Deployment
+1.	Installation et Déploiement
 
-Launch VSCode and install the "Python" extension published by Microsoft. After creating the folder, open an integrated terminal in VS Code to clone the repository and execute the following commands:
+Lancez VSCode et installez l’extension “Python” publiée par Microsoft. Après avoir créé le dossier, ouvrez un terminal intégré dans VS Code pour cloner le dépôt et exécuter les commandes suivantes :
 
 	« git clone https://github.com/VitorPinto1/ristorante.git »
 	« cd ristorante »
 
-2. 	Environment Configuration
+2. 	Configuration de l’environnement
 
-Activate the Python virtual environment in the terminal:
+Activez l’environnement virtuel Python dans le terminal :
 
 	« source env/bin/activate »  # Unix ou MacOS
 	« env\Scripts\activate »    # Windows
 
-Install the required packages using requirements.txt:
+Installer les paquets requis à partir de requirements.txt :
 
   « pip install -r requirements.txt » 
 
-3. 	Launching the Application
+3. 	Lancer l’application
 
-Run the application with Flask in the terminal:
+Exécutez l’application avec Flask dans le terminal :
 
 	« python app.py »
 	« flask run »
 
-4. 	Accessing the Application
+4. 	Accéder à l’application
 
-Open your browser and go to:
+Ouvrez votre navigateur et allez à :
 	
  	http://127.0.0.1:5000/
 
-To view emails, open your browser and go to:
+Pour consulter les e-mails, ouvrez votre navigateur et allez à :
 
-	-https://mailtrap.io/home
+	-https://www.mailjet.com/fr/
   
-You will need your Mailtrap user credentials.
+Vous aurez besoin de vos identifiants utilisateur Mailjet.
 
 Conclusion
 
-By following these steps, you should be able to deploy the web application locally and test its functionalities.
+En suivant ces étapes, vous devriez pouvoir déployer l’application web localement et tester ses fonctionnalités.
