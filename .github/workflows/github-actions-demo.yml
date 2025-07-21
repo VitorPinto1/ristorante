@@ -26,7 +26,7 @@ jobs:
 
 
       - name: Run tests inside container
-        run: docker run --rm -d -p 8080:5001 --name restaurant-test vitorpinto500/restaurant-ilcapo:latest pytest
+        run: docker run --rm vitorpinto500/restaurant-ilcapo:latest pytest
       
       - name: Wait for tests to finish
         run: sleep 10
