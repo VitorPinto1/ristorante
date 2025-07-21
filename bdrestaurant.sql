@@ -1,8 +1,8 @@
 START TRANSACTION;
 
-CREATE DATABASE IF NOT EXISTS dbrestaurant_silkspeech;
+CREATE DATABASE IF NOT EXISTS restaurant_brushsmile;
 
-USE dbrestaurant_silkspeech;
+USE restaurant_brushsmile;
 
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,

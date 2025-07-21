@@ -1,0 +1,59 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: docker build -t vitorpinto500/restaurant-ilcapo:latest
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+      - name: Push Docker image
+        run: docker push vitorpinto500/restaurant-ilcapo:latest
+
+
+      - name: Run tests inside container
+        run: docker run --rm -d -p 8080:5001 --name restaurant-test vitorpinto500/restaurant-ilcapo:latest pytest
+      
+      - name: Wait for tests to finish
+        run: sleep 10
+
+      - name: Stop test container
+        run: docker stop restaurant-test || true
+
+      - name: Run container for integration test
+        run: |
+          docker run --rm -d -p 8080:5001 --name restaurant-int vitorpinto500/restaurant-ilcapo:latest
+         
+
+
+
+
+      - name: Stop container
+        run: docker stop restaurant-int
+
+      - name: Install Flyctl
+        if: github.ref == 'refs/heads/main' 
+        run: |
+          curl -L https://fly.io/install.sh | sh
+          echo "$HOME/.fly/bin" >> $GITHUB_PATH
+
+      
+      - name: Deploy to Fly.io
+        if: github.ref == 'refs/heads/main'
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
