@@ -18,6 +18,8 @@ Flask-Mail==0.10.0
 Flask-MySQL==1.5.2
 Flask-MySQLdb==2.0.0
 Flask-Testing==0.8.1
+flask-pymongo>=2.3.0
+
 geventhttpclient==2.3.1
 gunicorn==21.2.0
 h11==0.14.0
