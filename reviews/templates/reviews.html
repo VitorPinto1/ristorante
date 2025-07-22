@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% block title %}Reviews{% endblock %}
+{% block content %}
+
+
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top ">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('index.index') }}">
+        <img src="{{ url_for('static', filename='sources/ristoranteLogoNav.svg') }}" alt="Ristorante Il Capo" style="height: 40px;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="navbarToggler">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index.index') }}#menu-section">Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index.index') }}#reservation-section">Reservation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index.index') }}#about_us-section">About Us</a>
+          </li>
+
+          {% if session.get('user_id') %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.user_space')}}">User Space</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.logout')}}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('login.login')}}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('sign_up.sign_up')}}">Sign up</a>
+          </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('reviews.reviews')}}">Reviews</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<main>
+  <div class="container my-5 mt-5 pt-5" style="max-width: 700px;">
+    <h2 class="mb-4">Customer Reviews</h2>
+    
+    <div class="mb-4">
+      <form method="POST" class="card p-4 shadow-sm">
+        <h5>Leave a review</h5>
+        <div class="mb-2">
+          <label class="form-label">Name</label>
+          <input type="text"
+            name="name"
+            maxlength="50"
+            pattern="^[A-Za-zÀ-ÿñÑáéíóúÁÉÍÓÚüÜ]+( [A-Za-zÀ-ÿñÑáéíóúÁÉÍÓÚüÜ]+)?$"
+            title="Please enter only your first and last name, without numbers or special characters."
+            class="form-control"
+            oninvalid="this.setCustomValidity('Please enter only your first and last name, without numbers or special characters.')"
+            oninput="this.setCustomValidity('')"
+            required>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Your review</label>
+             <textarea name="comment"
+                maxlength="250"
+                class="form-control"
+                rows="2"
+                required
+                oninvalid="this.setCustomValidity('Please enter your comment (max 250 characters).')"
+                oninput="this.setCustomValidity('')"
+                title="You can use letters, spaces and punctuation. No emojis or special symbols."></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Rating</label>
+          <div class="star-rating-svg" role="radiogroup" aria-label="Star rating">
+            {% for i in range(5, 0, -1) %}
+              <input type="radio" id="svgstar{{ i }}" name="rating" value="{{ i }}" required>
+              <label for="svgstar{{ i }}" aria-label="{{ i }} star{{ '' if i == 1 else 's' }}" title="{{ i }} star{{ '' if i == 1 else 's' }}">
+                <svg viewBox="0 0 40 40">
+                  <path d="M30.17,33.77 L27.09,24.12 C26.96,23.70 27.11,23.25 27.46,23.00 L35.45,17.32 C35.90,16.99 36.00,16.37 35.68,15.92 C35.50,15.66 35.19,15.50 34.87,15.50 L25.08,15.51 C24.65,15.51 24.26,15.22 24.13,14.81 L20.95,4.88 C20.78,4.35 20.22,4.06 19.70,4.23 C19.39,4.33 19.15,4.57 19.05,4.88 L15.87,14.81 C15.74,15.22 15.35,15.51 14.92,15.51 L5.13,15.50 C4.58,15.50 4.13,15.95 4.13,16.50 C4.13,16.82 4.29,17.13 4.55,17.32 L12.54,23.00 C12.89,23.25 13.04,23.70 12.91,24.12 L9.83,33.77 C9.66,34.29 9.95,34.85 10.48,35.02 C10.79,35.12 11.12,35.06 11.38,34.87 L19.40,28.85 C19.76,28.58 20.24,28.58 20.60,28.85 L28.62,34.87 C29.06,35.20 29.69,35.11 30.02,34.67 C30.22,34.41 30.27,34.07 30.17,33.77 Z"/>
+                </svg>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+
+    
+        <div class="text-center">
+          <button class="btn btn-primary btn-sm">Submit</button>
+        </div>
+
+      </form>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for cat, msg in messages %}
+            <div class="alert alert-{{ cat }} mt-2">{{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <div class="mb-4 p-3 bg-light rounded shadow-sm text-center">
+      <h5 class="mb-3">Reviews by Rating</h5>
+        <div style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;">
+          <div style="width:min(24vh,45vw);aspect-ratio:1/1;margin:0 auto;">
+            <canvas id="reviewsPieChart" style="width:100% !important;height:100% !important;"></canvas>
+          </div>
+          <div style="width:min(28vh,55vw);height: min(28vh,55vw);margin:0 auto;">
+            <canvas id="reviewsBarChart" style="width:100% !important;height:100% !important;"></canvas>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+      <form method="get" class="d-inline">
+        <label>Show:</label>
+        <select name="min_rating" onchange="this.form.submit()" class="form-select d-inline w-auto">
+          <option value="0" {% if min_rating == 0 %}selected{% endif %}>All reviews</option>
+          <option value="5" {% if min_rating == 5 %}selected{% endif %}>Only 5 stars</option>
+          <option value="4" {% if min_rating == 4 %}selected{% endif %}>4 stars and up</option>
+          <option value="3" {% if min_rating == 3 %}selected{% endif %}>3 stars and up</option>
+        </select>
+      </form>
+    </div>
+
+    <div class="reviews-scroll">
+      {% for r in reviews %}
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h6 class="card-title mb-1">{{ r.name }}</h6>
+              <small class="text-muted">{{ r.date.strftime('%Y-%m-%d %H:%M') if r.date }}</small>
+            </div>
+            <div class="mb-2 text-warning">
+              {% for _ in range(r.rating) %}★{% endfor %}
+              {% for _ in range(5 - r.rating) %}☆{% endfor %}
+            </div>
+            <p class="card-text">{{ r.comment }}</p>
+          </div>
+        </div>
+      {% else %}
+        <div class="alert alert-secondary">No reviews yet.</div>
+      {% endfor %}
+    </div>
+
+</div>
+</main>
+
+<script id="stars-data" type="application/json">
+  {{ stars_count|tojson|safe }}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const starsCount = JSON.parse(document.getElementById('stars-data').textContent);
+  const labels = ["5 Stars", "4 Stars", "3 Stars", "2 Stars", "1 Star"];
+  const colors = ["#fabb05", "#ffd666", "#b0c2f2", "#87bbf2", "#dbdbe7"];
+
+  new Chart(document.getElementById('reviewsPieChart'), {
+    type: 'pie',
+    data: { labels, datasets: [{ data: starsCount, backgroundColor: colors }] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          onClick: null   
+        },
+        tooltip: {
+          enabled: false 
+        }
+      },
+      events: []          
+    }
+  });
+
+  new Chart(document.getElementById('reviewsBarChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data: starsCount,
+        backgroundColor: colors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: { beginAtZero: true, ticks: { precision:0 } }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+</script>
+
+
+
+
+{% endblock %}

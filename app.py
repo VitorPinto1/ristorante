@@ -5,6 +5,7 @@ from sign_up import signUp_bp
 from reservation import reservation_bp
 from user import user_bp
 from index import index_bp
+from reviews import reviews_bp  
 from flask import render_template
 import sys
 import os
@@ -16,6 +17,7 @@ app.register_blueprint(signUp_bp, url_prefix='/sign_up')
 app.register_blueprint(reservation_bp, url_prefix='/reservation')
 app.register_blueprint(user_bp, url_prefix='/user' )
 app.register_blueprint(index_bp, url_prefix='/index')
+app.register_blueprint(reviews_bp, url_prefix='/reviews')   
 
 @app.route('/')
 def index():
@@ -23,7 +25,7 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
 
 
 

@@ -7,6 +7,9 @@ from flask_bootstrap import Bootstrap
 from datetime import datetime, time as dt_time
 from dotenv import load_dotenv
 from flask_mail import Mail, Message
+from flask_pymongo import PyMongo
+
+
 import os
 import logging
 import sys
@@ -29,10 +32,12 @@ app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT'))
 app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
 app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
 app.config['MYSQL_DB'] = os.environ.get('MYSQL_DATABASE')
+app.config['MONGO_URI'] = os.environ.get('MONGO_URI')   
 
 mysql = MySQL(app)
 bcrypt = Bcrypt(app)
 bootstrap = Bootstrap(app)
+mongo = PyMongo(app)
 
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER')
 app.config['MAIL_SERVER']= os.environ.get('MAIL_SERVER')

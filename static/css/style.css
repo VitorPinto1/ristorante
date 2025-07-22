@@ -279,3 +279,45 @@ header {
   color: black;
   margin-top: 30px;
 }
+
+
+
+.star-rating-svg {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  gap: 6px;
+  font-size: 2.1em;
+  user-select: none;
+}
+
+.star-rating-svg input[type="radio"] {
+  display: none;
+}
+.star-rating-svg label {
+  cursor: pointer;
+}
+.star-rating-svg svg {
+  fill: #ddd;
+  transition: fill 0.2s;
+  width: 34px;
+  height: 34px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.star-rating-svg input[type="radio"]:checked ~ label svg,
+.star-rating-svg label:hover svg,
+.star-rating-svg label:hover ~ label svg {
+  fill: #fabb05;
+}
+
+.reviews-scroll {
+  max-height: 620px;  
+  overflow-y: auto;
+  padding-right: 8px; 
+}
+@media (max-width: 576px) {
+  .reviews-scroll {
+    max-height: 420px; 
+  }
+}
