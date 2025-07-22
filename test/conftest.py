@@ -3,6 +3,7 @@ from flask import Flask, g, session
 from flask_bcrypt import Bcrypt
 from flask_mysqldb import MySQL
 from flask_mail import Mail, Message
+from flask_pymongo import PyMongo
 import MySQLdb
 from dotenv import load_dotenv
 import os
