@@ -8,6 +8,7 @@ from datetime import datetime, time as dt_time
 from dotenv import load_dotenv
 from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
+from pymongo import DESCENDING, ASCENDING
 
 
 import os

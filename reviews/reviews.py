@@ -41,8 +41,16 @@ def reviews():
 
     # Gestion des filtres
     min_rating = int(request.args.get('min_rating', '0'))
-    reviews_query = {} if min_rating == 0 else {'rating': {'$gte': min_rating}}
-    all_reviews = list(mongo.db.reviews.find(reviews_query).sort('date', -1))
+    if min_rating == 0:
+        reviews_query = {}
+        sort_spec = [('date', DESCENDING)]
+    else:
+        reviews_query = {'rating': {'$gte': min_rating}}
+        sort_spec = [('rating', ASCENDING), ('date', DESCENDING)]
+
+    all_reviews = list(
+        mongo.db.reviews.find(reviews_query).sort(sort_spec)
+    )
 
     # Stats
     total = mongo.db.reviews.count_documents({})
