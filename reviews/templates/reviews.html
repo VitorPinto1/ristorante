@@ -23,6 +23,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('index.index') }}#about_us-section">About Us</a>
           </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('reviews.reviews')}}">Reviews</a>
+          </li>
 
           {% if session.get('user_id') %}
           <li class="nav-item">
@@ -38,9 +41,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('sign_up.sign_up')}}">Sign up</a>
           </li>
-            <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('reviews.reviews')}}">Reviews</a>
-          </li>
+        
           {% endif %}
         </ul>
       </div>
