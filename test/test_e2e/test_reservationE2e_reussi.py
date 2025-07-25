@@ -67,7 +67,7 @@ try:
         date_input = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "inputDate"))
         )
-        driver.execute_script("arguments[0].value = '2024-08-30';", date_input)
+        driver.execute_script("arguments[0].value = '2027-02-13';", date_input)
         date_input.send_keys(Keys.TAB)
         time_input = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "inputTime"))

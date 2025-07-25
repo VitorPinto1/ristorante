@@ -96,8 +96,8 @@ def test_sign_up_existing_username(client):
 
 def test_sign_up_success(client):
     response = client.post('/sign_up/sign_up', data={
-        'name': 'newuser',
-        'email': 'newuser@example.com',
+        'name': 'newuser3',
+        'email': 'newuser3@example.com',
         'password': 'Password123!'
     }, follow_redirects=False)
     assert response.status_code == 302
@@ -118,7 +118,7 @@ def test_reservation_success(client):
         response = client.post('/reservation/reservation', data=dict(
             name='Test User',
             totalPerson=4,
-            date='2024-07-29',
+            date='2027-02-11',
             time='19:00',
             email='testuser@example.com'
         ), follow_redirects=False)
@@ -170,7 +170,7 @@ def test_reservation_confirmation_email(client, mail):
             response = client.post('/reservation/reservation', data=dict(
                 name='Test User',
                 totalPerson=4,
-                date='2024-07-30',
+                date='2027-02-12',
                 time='19:00',
                 email='testuser@hotmail.com'
             ), follow_redirects=False)
